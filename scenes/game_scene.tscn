@@ -1,0 +1,214 @@
+[gd_scene load_steps=20 format=3 uid="uid://cvl48ut3k8bwc"]
+
+[ext_resource type="Script" path="res://scripts/game_scene.gd" id="1_7648q"]
+[ext_resource type="PackedScene" uid="uid://c54khy0llqpmk" path="res://scenes/maps/map_1.tscn" id="1_r321l"]
+[ext_resource type="Script" path="res://scripts/UI.gd" id="3_n8aiq"]
+[ext_resource type="Texture2D" uid="uid://batr60qj4r6bf" path="res://assets/arrow_tower_01.png" id="3_vppxf"]
+[ext_resource type="Texture2D" uid="uid://4007bn4htv0t" path="res://assets/HPbar_01.png" id="4_5w5kb"]
+[ext_resource type="Texture2D" uid="uid://c8tk0ekkmaaqn" path="res://assets/health_circle.png" id="4_pv3oj"]
+[ext_resource type="Script" path="res://scripts/WaveProgress.gd" id="5_4vanx"]
+[ext_resource type="Texture2D" uid="uid://cyj4vvby200gj" path="res://assets/pause.png" id="5_26djg"]
+[ext_resource type="Texture2D" uid="uid://b2c8wkdb7r2he" path="res://assets/health_circle_hole.png" id="5_sq8kh"]
+[ext_resource type="Texture2D" uid="uid://b2u625l0yp4kg" path="res://assets/right.png" id="6_cyahd"]
+[ext_resource type="Texture2D" uid="uid://7fxmyp4s27gt" path="res://assets/fastForward.png" id="7_anmaf"]
+[ext_resource type="Script" path="res://scripts/Towers.gd" id="12_0bhr5"]
+[ext_resource type="Script" path="res://scripts/Arrows.gd" id="12_yxfng"]
+[ext_resource type="PackedScene" uid="uid://cnaqu4mvgxucd" path="res://scenes/towers/arrow.tscn" id="13_1vxww"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ug2bf"]
+bg_color = Color(0.482353, 0.317647, 0.0588235, 0.701961)
+border_width_left = 5
+border_width_top = 5
+border_width_bottom = 5
+border_color = Color(0.689476, 0.406346, 0.404588, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dqo4c"]
+bg_color = Color(0.482353, 0.317647, 0.0588235, 0.14902)
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.689476, 0.406346, 0.404588, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwi4u"]
+bg_color = Color(0.560784, 0.337255, 0.294118, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l8vit"]
+bg_color = Color(0.511054, 0.302913, 0.262846, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_muyi4"]
+bg_color = Color(0.631523, 0.388999, 0.34196, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[node name="GameScene" type="Node2D"]
+script = ExtResource("1_7648q")
+map_node = ExtResource("1_r321l")
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("3_n8aiq")
+
+[node name="HUD" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Header" type="HBoxContainer" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_override_constants/separation = 0
+
+[node name="MarginContainer2" type="MarginContainer" parent="UI/HUD/Header"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="UI/HUD/Header/MarginContainer2"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ug2bf")
+
+[node name="WaveInfoLabel" type="Label" parent="UI/HUD/Header/MarginContainer2/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "Next Wave: 3 assailants"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer3" type="MarginContainer" parent="UI/HUD/Header"]
+layout_mode = 2
+
+[node name="WaveProgress" type="TextureProgressBar" parent="UI/HUD/Header/MarginContainer3"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+rounded = true
+nine_patch_stretch = true
+texture_under = ExtResource("4_5w5kb")
+texture_progress = ExtResource("4_5w5kb")
+tint_under = Color(1, 1, 1, 0)
+tint_progress = Color(0.482353, 0.317647, 0.0588235, 0.701961)
+script = ExtResource("5_4vanx")
+
+[node name="Panel" type="Panel" parent="UI/HUD/Header/MarginContainer3"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dqo4c")
+
+[node name="CurrentWaveInfoLabel" type="Label" parent="UI/HUD/Header/MarginContainer3/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/HUD/Header"]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+
+[node name="ProgressBar" type="TextureProgressBar" parent="UI/HUD/Header/MarginContainer"]
+layout_mode = 2
+fill_mode = 5
+texture_under = ExtResource("4_pv3oj")
+texture_over = ExtResource("5_sq8kh")
+texture_progress = ExtResource("4_pv3oj")
+tint_under = Color(0.905882, 0, 0.054902, 0.54902)
+tint_over = Color(0, 0, 0, 0.45098)
+tint_progress = Color(0.235294, 0.792157, 0.054902, 0.615686)
+
+[node name="Footer" type="HBoxContainer" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -106.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/HUD/Footer"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ArrowTower" type="Button" parent="UI/HUD/Footer/MarginContainer" groups=["build_buttons"]]
+custom_minimum_size = Vector2(90, 90)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_xwi4u")
+theme_override_styles/hover = SubResource("StyleBoxFlat_l8vit")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_muyi4")
+
+[node name="Icon" type="TextureRect" parent="UI/HUD/Footer/MarginContainer/ArrowTower"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_vppxf")
+expand_mode = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="UI/HUD/Footer"]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Footer/MarginContainer2"]
+layout_mode = 2
+
+[node name="PausePlay" type="TextureButton" parent="UI/HUD/Footer/MarginContainer2/HBoxContainer"]
+process_mode = 3
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("6_cyahd")
+texture_pressed = ExtResource("5_26djg")
+
+[node name="FastForward" type="TextureButton" parent="UI/HUD/Footer/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+disabled = true
+texture_normal = ExtResource("7_anmaf")
+
+[node name="Towers" type="Node2D" parent="."]
+script = ExtResource("12_0bhr5")
+
+[node name="Arrows" type="Node2D" parent="."]
+script = ExtResource("12_yxfng")
+arrow_scene = ExtResource("13_1vxww")
+
+[connection signal="pressed" from="UI/HUD/Footer/MarginContainer2/HBoxContainer/PausePlay" to="UI" method="_on_pause_play_pressed"]
+[connection signal="pressed" from="UI/HUD/Footer/MarginContainer2/HBoxContainer/FastForward" to="UI" method="_on_fast_forward_pressed"]

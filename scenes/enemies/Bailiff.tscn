@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://nrh4uk5fayyx"]
+
+[ext_resource type="Script" path="res://scripts/bailiff.gd" id="1_a3njh"]
+[ext_resource type="Texture2D" uid="uid://qlxr2j8iltpy" path="res://assets/assailant_01_move1.png" id="2_25vus"]
+[ext_resource type="Texture2D" uid="uid://kua57juqgutv" path="res://assets/assailant_01_move2.png" id="3_b1aay"]
+[ext_resource type="Texture2D" uid="uid://4007bn4htv0t" path="res://assets/HPbar_01.png" id="4_sjfj6"]
+[ext_resource type="Texture2D" uid="uid://c54m55r4sxa0i" path="res://assets/HPbar_frame.png" id="5_uvf03"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q4g8b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_25vus")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_b1aay")
+}],
+"loop": true,
+"name": &"move",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y5ut0"]
+size = Vector2(24, 12)
+
+[node name="Bailiff" type="PathFollow2D"]
+loop = false
+script = ExtResource("1_a3njh")
+
+[node name="Skin" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_q4g8b")
+animation = &"move"
+autoplay = "move"
+frame_progress = 0.67733
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_y5ut0")
+
+[node name="HP" type="TextureProgressBar" parent="."]
+top_level = true
+custom_minimum_size = Vector2(28, 4)
+value = 35.0
+texture_under = ExtResource("4_sjfj6")
+texture_over = ExtResource("5_uvf03")
+texture_progress = ExtResource("4_sjfj6")
+tint_under = Color(0.862745, 0.188235, 0.14902, 0.290196)
+tint_over = Color(0, 0, 0, 1)
+tint_progress = Color(0.439216, 0.588235, 0.12549, 1)
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

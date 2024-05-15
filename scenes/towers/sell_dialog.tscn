@@ -1,0 +1,82 @@
+[gd_scene load_steps=6 format=3 uid="uid://dp30lu28wtl30"]
+
+[ext_resource type="Shader" path="res://assets/shaders/blur_01.gdshader" id="1_c0sln"]
+[ext_resource type="Script" path="res://scripts/sell_dialog.gd" id="1_wdyp3"]
+[ext_resource type="LabelSettings" uid="uid://nis6xtmkq4lw" path="res://assets/themes/btn_lbl_settings.tres" id="2_oyieu"]
+[ext_resource type="FontFile" uid="uid://carhdkdeua43w" path="res://assets/Redkost Comic.otf" id="3_og8fi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_crm6j"]
+shader = ExtResource("1_c0sln")
+shader_parameter/blur_amount = 1.0
+shader_parameter/mix_amount = 0.0
+shader_parameter/color_over = null
+
+[node name="SellDialog" type="Control"]
+top_level = true
+custom_minimum_size = Vector2(140, 100)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1460.0
+offset_bottom = -860.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_wdyp3")
+
+[node name="Panel" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_crm6j")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+text = "sell tower for 12 coins?"
+label_settings = ExtResource("2_oyieu")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="OK" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_og8fi")
+theme_override_font_sizes/font_size = 18
+text = "OK"
+
+[node name="Cancel" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_og8fi")
+theme_override_font_sizes/font_size = 18
+text = "Cancel"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/OK" to="." method="_on_ok_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_pressed"]

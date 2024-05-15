@@ -1,0 +1,99 @@
+[gd_scene load_steps=12 format=3 uid="uid://wu3iermqd1an"]
+
+[ext_resource type="Script" path="res://scripts/ArrowTower.gd" id="1_hlp86"]
+[ext_resource type="Texture2D" uid="uid://djpr4duac7s3x" path="res://assets/arrow_tower_02_base.png" id="2_012o6"]
+[ext_resource type="Texture2D" uid="uid://b4vj0ldes8tw8" path="res://assets/arrow_tower_02_bow.png" id="3_0nlei"]
+[ext_resource type="Texture2D" uid="uid://clurv6k306ku0" path="res://assets/arrow_tower_02_bow_loosen.png" id="4_14y3d"]
+[ext_resource type="PackedScene" uid="uid://cagq3wea5nsak" path="res://scenes/towers/tower_menu.tscn" id="5_2xrhe"]
+[ext_resource type="PackedScene" uid="uid://dp30lu28wtl30" path="res://scenes/towers/sell_dialog.tscn" id="6_py80h"]
+[ext_resource type="PackedScene" uid="uid://bo5sdjroccamu" path="res://scenes/towers/up_menu.tscn" id="7_p7kho"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tw0vi"]
+resource_local_to_scene = true
+radius = 32.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a8i8i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_0nlei")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_14y3d")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ig1as"]
+radius = 0.01
+
+[sub_resource type="LabelSettings" id="LabelSettings_cjyjp"]
+font_size = 14
+
+[node name="ArrowTower" type="Node2D"]
+script = ExtResource("1_hlp86")
+
+[node name="Bounds" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bounds"]
+shape = SubResource("CircleShape2D_tw0vi")
+
+[node name="Base" type="Sprite2D" parent="."]
+texture = ExtResource("2_012o6")
+
+[node name="Bow" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_0nlei")
+
+[node name="BowLoosen" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_14y3d")
+
+[node name="Boww" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_a8i8i")
+frame = 1
+frame_progress = 1.0
+
+[node name="Range" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
+shape = SubResource("CircleShape2D_ig1as")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(30, 18)
+offset_left = -15.0
+offset_top = -48.0
+offset_right = 15.0
+offset_bottom = -28.0
+label_settings = SubResource("LabelSettings_cjyjp")
+horizontal_alignment = 1
+
+[node name="TowerMenu" parent="." instance=ExtResource("5_2xrhe")]
+visible = false
+offset_top = -502.0
+offset_bottom = -358.0
+
+[node name="SellDialog" parent="." instance=ExtResource("6_py80h")]
+visible = false
+
+[node name="UpMenu" parent="." instance=ExtResource("7_p7kho")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -72.0
+offset_right = 72.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="mouse_entered" from="Bounds" to="." method="_on_bounds_mouse_entered"]
+[connection signal="mouse_exited" from="Bounds" to="." method="_on_bounds_mouse_exited"]
+[connection signal="area_entered" from="Range" to="." method="_on_range_area_entered"]
+[connection signal="area_exited" from="Range" to="." method="_on_range_area_exited"]

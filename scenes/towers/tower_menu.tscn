@@ -1,0 +1,97 @@
+[gd_scene load_steps=9 format=3 uid="uid://cagq3wea5nsak"]
+
+[ext_resource type="Shader" path="res://assets/shaders/blur_01.gdshader" id="1_01c10"]
+[ext_resource type="Script" path="res://scripts/tower_menu.gd" id="1_7rxvc"]
+[ext_resource type="Texture2D" uid="uid://cbfhtcksm005v" path="res://assets/upgrade_btn_01.png" id="2_cm01q"]
+[ext_resource type="Texture2D" uid="uid://j1s0ya78bmt6" path="res://assets/upgrade_btn_01_hover.png" id="3_y12a4"]
+[ext_resource type="Texture2D" uid="uid://cnympb5qaq60w" path="res://assets/sell_btn_01.png" id="4_skdx5"]
+[ext_resource type="Texture2D" uid="uid://blcuelsdmmaee" path="res://assets/sell_btn_01_hover.png" id="5_cb44h"]
+[ext_resource type="LabelSettings" uid="uid://nis6xtmkq4lw" path="res://assets/themes/btn_lbl_settings.tres" id="6_a3150"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a7la0"]
+shader = ExtResource("1_01c10")
+shader_parameter/blur_amount = 1.0
+shader_parameter/mix_amount = 0.0
+shader_parameter/color_over = Color(0, 0, 0, 1)
+
+[node name="TowerMenu" type="Control"]
+top_level = true
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -800.0
+offset_top = -480.0
+offset_right = -656.0
+offset_bottom = -380.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(70, 50)
+size_flags_horizontal = 6
+size_flags_vertical = 6
+mouse_filter = 2
+mouse_force_pass_scroll_events = false
+script = ExtResource("1_7rxvc")
+
+[node name="Panel" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_a7la0")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Up" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_cm01q")
+texture_hover = ExtResource("3_y12a4")
+
+[node name="Sell" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("4_skdx5")
+texture_hover = ExtResource("5_cb44h")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="UpLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Up"
+label_settings = ExtResource("6_a3150")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SellLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Sell"
+label_settings = ExtResource("6_a3150")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Up" to="." method="_on_up_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Sell" to="." method="_on_sell_pressed"]
