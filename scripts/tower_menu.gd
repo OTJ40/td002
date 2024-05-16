@@ -11,6 +11,5 @@ func _ready() -> void:
 func _on_up_pressed() -> void:
 	up_pressed.emit()
 
-
 func _on_sell_pressed() -> void:
 	sell_pressed.emit()

@@ -14,7 +14,7 @@ SPEED = 600.0
 [node name="Skin" type="Sprite2D" parent="."]
 texture = ExtResource("1_7gtd6")
 
-[node name="TipOfArrow" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2(7, 0)
 shape = SubResource("RectangleShape2D_8tykr")
 

@@ -36,7 +36,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 
 func dying():
 	$HP.visible = false
-	$Hitbox.call_deferred("free")
+	$Hurtbox.call_deferred("free")
 	$Skin.set_speed_scale(0.25)
 	SPEED = lerpf(SPEED,0.0,0.8)
 	var tween = get_tree().create_tween().bind_node(self)
@@ -44,7 +44,6 @@ func dying():
 	tween.tween_property(self,"modulate",Color(1,0,0,0.3),1.0)
 	tween.finished.connect(func(): tween.kill())
 	await G.timer(1.5)
-	#assailant_death.emit()
 	queue_free()
 
 func enemy():

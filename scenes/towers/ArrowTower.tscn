@@ -12,6 +12,9 @@
 resource_local_to_scene = true
 radius = 32.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ig1as"]
+radius = 0.01
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_a8i8i"]
 animations = [{
 "frames": [{
@@ -26,9 +29,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ig1as"]
-radius = 0.01
-
 [sub_resource type="LabelSettings" id="LabelSettings_cjyjp"]
 font_size = 14
 
@@ -40,27 +40,29 @@ script = ExtResource("1_hlp86")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bounds"]
 shape = SubResource("CircleShape2D_tw0vi")
 
-[node name="Base" type="Sprite2D" parent="."]
-texture = ExtResource("2_012o6")
-
-[node name="Bow" type="Sprite2D" parent="."]
-visible = false
-texture = ExtResource("3_0nlei")
-
-[node name="BowLoosen" type="Sprite2D" parent="."]
-visible = false
-texture = ExtResource("4_14y3d")
-
-[node name="Boww" type="AnimatedSprite2D" parent="."]
-visible = false
-sprite_frames = SubResource("SpriteFrames_a8i8i")
-frame = 1
-frame_progress = 1.0
-
 [node name="Range" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
 shape = SubResource("CircleShape2D_ig1as")
+
+[node name="Skins" type="Node2D" parent="."]
+
+[node name="Base" type="Sprite2D" parent="Skins"]
+texture = ExtResource("2_012o6")
+
+[node name="Bow" type="Sprite2D" parent="Skins"]
+visible = false
+texture = ExtResource("3_0nlei")
+
+[node name="BowLoosen" type="Sprite2D" parent="Skins"]
+visible = false
+texture = ExtResource("4_14y3d")
+
+[node name="Boww" type="AnimatedSprite2D" parent="Skins"]
+visible = false
+sprite_frames = SubResource("SpriteFrames_a8i8i")
+frame = 1
+frame_progress = 1.0
 
 [node name="Label" type="Label" parent="."]
 custom_minimum_size = Vector2(30, 18)

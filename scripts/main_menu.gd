@@ -2,7 +2,7 @@ extends Node2D
 
 signal new_game
 var t = 0
-var flip = true
+var flip_bailiff = true
 
 func _ready() -> void:
 	$MarginContainer.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -13,8 +13,8 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	t += 1
 	if t == 13:
-		$MarginContainer/HBoxContainer/TextureRect.flip_v = flip
-		flip = !flip
+		$MarginContainer/HBoxContainer/TextureRect.flip_v = flip_bailiff
+		flip_bailiff = !flip_bailiff
 		t = 0
 
 func menu_tweener(word: String):

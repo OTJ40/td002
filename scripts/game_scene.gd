@@ -19,27 +19,15 @@ var build_location
 var build_type
 var build_tile
 
-
 func _ready() -> void:
 	get_node("UI").update_health(health)
 	get_node("UI").update_next_wave_info(current_wave)
 	
 	game_finished.connect(Callable(get_parent(),"_on_game_finished"))
-	#game_finished.connect(_base_down)
-	#var level = 1
-	#var base_xp = 3
-	#var expo = 1.5
-	#var xp = 0
-	#var temp = base_xp
-	#for i in range(1,17):
-		#xp = round(pow((level+1),expo)*base_xp)
-		#prints(level,xp,xp-temp)
-		#temp = xp
-		#level += 1
-	
+
 	set_map()
 	
-	# === todo in future several types of buildings === #
+	# === todo in future: several types of buildings === #
 	for build_button in get_tree().get_nodes_in_group("build_buttons"):
 		build_button.pressed.connect(start_build_mode.bind(build_button.name))
 
@@ -50,7 +38,6 @@ func _process(_delta: float) -> void:
 	if is_build_mode:
 		update_tower_preview()
 		stop_show_menus_in_build_mode()
-
 
 func start_show_menus():
 	var towers = get_node("Towers").get_children()
@@ -121,13 +108,9 @@ func update_tower_preview():
 func start_next_wave():
 	current_wave_finished = false
 	current_wave += 1
-	var wave_data = retrieve_wave_data()
+	var wave_data = GameData.get_wave_data(current_wave)
 	await G.timer(TIME_BETWEEN_WAVES)
 	spawn_enemies(wave_data)
-
-func retrieve_wave_data():
-	var wave_data = GameData.get_wave_data(current_wave)
-	return wave_data
 
 func spawn_enemies(wave_data):
 	var current_info_bailiffs = 0
@@ -137,27 +120,27 @@ func spawn_enemies(wave_data):
 		var next_monster_name = item[0]
 		var next_monster_time = item[1]
 		
-		var new_enemy_instance \
+		var new_bailiff_instance \
 		= load("res://scenes/enemies/" + next_monster_name + ".tscn").instantiate()
-		new_enemy_instance.base_damage.connect(Callable(self,"on_base_damage"))
-		new_enemy_instance.bailiff_death.connect(Callable(self,"bailiff_off"))
-		bailiffs_on_field_array.append(new_enemy_instance)
+		
+		new_bailiff_instance.base_damage.connect(Callable(self,"on_base_damage"))
+		new_bailiff_instance.bailiff_death.connect(Callable(self,"bailiff_off"))
+		
+		bailiffs_on_field_array.append(new_bailiff_instance)
 		var path_array = map_instance.get_node("Paths").get_children()
-		path_array[randi() % path_array.size()].add_child(new_enemy_instance,true)
+		path_array[randi() % path_array.size()].add_child(new_bailiff_instance,true)
 		current_info_bailiffs += 1
 		get_node("UI").update_current_info(current_info_bailiffs,current_wave)
 		$UI/HUD/Header/MarginContainer3/WaveProgress.new_bailiff_on_field(next_monster_time,current_wave)
 		await G.timer(next_monster_time)
-	#await G.timer(TIME_BETWEEN_WAVES)
 	current_wave_finished = true
 
-func bailiff_off(ass):
-	bailiffs_on_field_array.erase(ass)
+func bailiff_off(bailiff):
+	bailiffs_on_field_array.erase(bailiff)
 
-func on_base_damage(_damage,ass):
-	#print(ass)
-	bailiffs_on_field_array.erase(ass)
-	health -= _damage
+func on_base_damage(damage,bailiff):
+	bailiffs_on_field_array.erase(bailiff)
+	health -= damage
 	if health <= 0:
 		G.game_speed(0.2)
 		arrows_off()
@@ -171,7 +154,7 @@ func on_base_damage(_damage,ass):
 func arrows_off():
 	var arrows = $Arrows.get_children()
 	for arw in arrows:
-		arw.get_node("TipOfArrow").disabled = true
+		arw.get_node("Hitbox").disabled = true
 
 func towers_off():
 	var towers = $Towers.get_children()

@@ -33,9 +33,9 @@ animation = &"move"
 autoplay = "move"
 frame_progress = 0.67733
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="Hurtbox" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("RectangleShape2D_y5ut0")
 
 [node name="HP" type="TextureProgressBar" parent="."]
@@ -49,4 +49,4 @@ tint_under = Color(0.862745, 0.188235, 0.14902, 0.290196)
 tint_over = Color(0, 0, 0, 1)
 tint_progress = Color(0.439216, 0.588235, 0.12549, 1)
 
-[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hitbox_area_entered"]
