@@ -1,14 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://dy0j01vu8pxt7"]
 
-[ext_resource type="Script" path="res://scripts/death_splash.gd" id="1_56fcb"]
+[ext_resource type="Script" path="res://scripts/death_splash_screen.gd" id="1_g0qxr"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bcx6p"]
 font_size = 48
 outline_size = 8
 outline_color = Color(0.0509804, 0.0509804, 0.0509804, 1)
 
-[node name="DeathSplash" type="Node2D"]
-script = ExtResource("1_56fcb")
+[node name="DeathSplashScreen" type="Node2D"]
+script = ExtResource("1_g0qxr")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(1600, 960)

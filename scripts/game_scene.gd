@@ -2,6 +2,8 @@ extends Node2D
 
 signal game_finished
 
+const CANCEL_TIME_COOLDOWN = 0.4
+
 @export var TIME_BETWEEN_WAVES = 2.5
 @export var map_node: PackedScene
 @export var health = 100
@@ -13,6 +15,7 @@ var current_wave_finished = false
 var bailiffs_on_field_array = []
 
 # === building === #
+var is_tower_menu_mode = false
 var is_build_mode = false
 var is_build_valid = false
 var build_location
@@ -33,21 +36,14 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if bailiffs_on_field_array.size() <= 0 and current_wave_finished and current_wave > 0:
-		$UI/HUD/Header/MarginContainer3/WaveProgress.reset_wave_progress()
+		$UI/HUD/HeaderLeft/MarginContainer3/WaveProgress.reset_wave_progress()
 		start_next_wave()
+	
 	if is_build_mode:
 		update_tower_preview()
 		stop_show_menus_in_build_mode()
-
-func start_show_menus():
-	var towers = get_node("Towers").get_children()
-	for twr in towers:
-		twr.get_node("Bounds").visible = true
-
-func stop_show_menus_in_build_mode():
-	var towers = get_node("Towers").get_children()
-	for twr in towers:
-		twr.get_node("Bounds").visible = false
+	
+	tower_menu_mode()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_build_mode:
@@ -58,7 +54,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			cancel_build_mode()
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_pressed("new_tower"):
+	if event.is_action_pressed("new_tower") and not is_tower_menu_mode:
 		start_build_mode("ArrowTower")
 
 #-===-===-===-===-===-===-===-===-===-===-===-===-===-===-
@@ -68,7 +64,7 @@ func cancel_build_mode():
 	is_build_valid = false
 	is_build_mode = false
 	get_node("UI/TowerPreview").free()
-	await G.timer(0.4)
+	await G.timer(G.get_time_cooldown(CANCEL_TIME_COOLDOWN))
 	start_show_menus()
 
 func verify_and_build():
@@ -80,6 +76,11 @@ func verify_and_build():
 		new_tower_instance.tile_coords = build_tile
 		get_node("Towers").add_child(new_tower_instance,true)
 		map_instance.get_node("Exclusions").set_cell(0,build_tile,3,Vector2(0,0))
+
+func stop_show_menus_in_build_mode():
+	var towers = get_node("Towers").get_children()
+	for twr in towers:
+		twr.get_node("Bounds").visible = false
 
 func start_build_mode(tower_type: String):
 	if is_build_mode:
@@ -131,7 +132,7 @@ func spawn_enemies(wave_data):
 		path_array[randi() % path_array.size()].add_child(new_bailiff_instance,true)
 		current_info_bailiffs += 1
 		get_node("UI").update_current_info(current_info_bailiffs,current_wave)
-		$UI/HUD/Header/MarginContainer3/WaveProgress.new_bailiff_on_field(next_monster_time,current_wave)
+		$UI/HUD/HeaderLeft/MarginContainer3/WaveProgress.new_bailiff_on_field(next_monster_time,current_wave)
 		await G.timer(next_monster_time)
 	current_wave_finished = true
 
@@ -163,6 +164,21 @@ func towers_off():
 
 func on_tower_sold(_tile_coords):
 	map_instance.get_node("Exclusions").erase_cell(0,_tile_coords)
+
+func tower_menu_mode():
+	for i in get_tree().get_nodes_in_group("footer_cover"):
+		i.visible = is_tower_menu_mode
+
+func start_show_menus():
+	var towers = get_node("Towers").get_children()
+	for twr in towers:
+		twr.get_node("Bounds").visible = true
+
+func on_has_open_dialogs():
+	is_tower_menu_mode = true
+
+func on_all_dialogs_closed():
+	is_tower_menu_mode = false
 
 func set_map():
 	map_instance = map_node.instantiate()

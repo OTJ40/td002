@@ -1,5 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://bo5sdjroccamu"]
+[gd_scene load_steps=12 format=3 uid="uid://bo5sdjroccamu"]
 
+[ext_resource type="Script" path="res://scripts/up_menu.gd" id="1_d5h05"]
 [ext_resource type="Shader" path="res://assets/shaders/blur_01.gdshader" id="1_j1hrr"]
 [ext_resource type="Texture2D" uid="uid://umpnfd5l848p" path="res://assets/upgrade_damage_btn_01.png" id="1_orhfd"]
 [ext_resource type="Texture2D" uid="uid://bibp5r32fu2a3" path="res://assets/upgrade_damage_btn_01_hover.png" id="2_r5ok6"]
@@ -7,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://bwpihw5meegxv" path="res://assets/upgrade_range_btn_01_hover.png" id="4_mbclc"]
 [ext_resource type="Texture2D" uid="uid://d0pdi8gbnm82c" path="res://assets/upgrade_rate_btn_01.png" id="5_w8ibl"]
 [ext_resource type="Texture2D" uid="uid://biiuul17p5ai8" path="res://assets/upgrade_rate_btn_01_hover.png" id="6_k43bh"]
+[ext_resource type="Texture2D" uid="uid://dsvrfh5gbiraa" path="res://assets/back_btn_01.png" id="8_arkmh"]
+[ext_resource type="Texture2D" uid="uid://cv14so45sbc4g" path="res://assets/back_btn_01_hover.png" id="9_bcq1c"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ueefr"]
 shader = ExtResource("1_j1hrr")
@@ -21,6 +24,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 144.0
 offset_bottom = 144.0
+script = ExtResource("1_d5h05")
 
 [node name="Panel" type="Panel" parent="."]
 material = SubResource("ShaderMaterial_ueefr")
@@ -62,3 +66,12 @@ layout_mode = 2
 layout_mode = 2
 texture_normal = ExtResource("5_w8ibl")
 texture_hover = ExtResource("6_k43bh")
+
+[node name="Cancel" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+texture_normal = ExtResource("8_arkmh")
+texture_hover = ExtResource("9_bcq1c")
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/UpDamage" to="." method="_on_up_damage_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/UpRate" to="." method="_on_up_rate_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/Cancel" to="." method="_on_cancel_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cvl48ut3k8bwc"]
+[gd_scene load_steps=23 format=3 uid="uid://cvl48ut3k8bwc"]
 
 [ext_resource type="Script" path="res://scripts/game_scene.gd" id="1_7648q"]
 [ext_resource type="PackedScene" uid="uid://c54khy0llqpmk" path="res://scenes/maps/map_1.tscn" id="1_r321l"]
@@ -11,9 +11,12 @@
 [ext_resource type="Texture2D" uid="uid://b2c8wkdb7r2he" path="res://assets/health_circle_hole.png" id="5_sq8kh"]
 [ext_resource type="Texture2D" uid="uid://b2u625l0yp4kg" path="res://assets/right.png" id="6_cyahd"]
 [ext_resource type="Texture2D" uid="uid://7fxmyp4s27gt" path="res://assets/fastForward.png" id="7_anmaf"]
+[ext_resource type="Shader" path="res://assets/shaders/blur_01.gdshader" id="8_qdolw"]
 [ext_resource type="Script" path="res://scripts/Towers.gd" id="12_0bhr5"]
 [ext_resource type="Script" path="res://scripts/Arrows.gd" id="12_yxfng"]
 [ext_resource type="PackedScene" uid="uid://cnaqu4mvgxucd" path="res://scenes/towers/arrow.tscn" id="13_1vxww"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gb26y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ug2bf"]
 bg_color = Color(0.482353, 0.317647, 0.0588235, 0.701961)
@@ -61,6 +64,12 @@ corner_radius_top_right = 14
 corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_codto"]
+shader = ExtResource("8_qdolw")
+shader_parameter/blur_amount = 1.186
+shader_parameter/mix_amount = 0.0
+shader_parameter/color_over = null
+
 [node name="GameScene" type="Node2D"]
 script = ExtResource("1_7648q")
 map_node = ExtResource("1_r321l")
@@ -77,22 +86,45 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Header" type="HBoxContainer" parent="UI/HUD"]
+[node name="HeaderRight" type="MarginContainer" parent="UI/HUD"]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 1
+anchor_left = 1.0
 anchor_right = 1.0
-grow_horizontal = 2
+offset_left = -64.0
+offset_bottom = 64.0
+grow_horizontal = 0
+size_flags_horizontal = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 0
+
+[node name="ProgressBar" type="TextureProgressBar" parent="UI/HUD/HeaderRight"]
+layout_mode = 2
+fill_mode = 5
+texture_under = ExtResource("4_pv3oj")
+texture_over = ExtResource("5_sq8kh")
+texture_progress = ExtResource("4_pv3oj")
+tint_under = Color(0.905882, 0, 0.054902, 0.54902)
+tint_over = Color(0, 0, 0, 0.45098)
+tint_progress = Color(0.235294, 0.792157, 0.054902, 0.615686)
+
+[node name="HeaderLeft" type="HBoxContainer" parent="UI/HUD"]
+layout_mode = 1
+offset_right = 600.0
+offset_bottom = 80.0
 theme_override_constants/separation = 0
 
-[node name="MarginContainer2" type="MarginContainer" parent="UI/HUD/Header"]
+[node name="MarginContainer2" type="MarginContainer" parent="UI/HUD/HeaderLeft"]
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="UI/HUD/Header/MarginContainer2"]
+[node name="Panel" type="Panel" parent="UI/HUD/HeaderLeft/MarginContainer2"]
+material = SubResource("ShaderMaterial_gb26y")
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ug2bf")
 
-[node name="WaveInfoLabel" type="Label" parent="UI/HUD/Header/MarginContainer2/Panel"]
+[node name="WaveInfoLabel" type="Label" parent="UI/HUD/HeaderLeft/MarginContainer2/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -104,10 +136,10 @@ text = "Next Wave: 3 assailants"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer3" type="MarginContainer" parent="UI/HUD/Header"]
+[node name="MarginContainer3" type="MarginContainer" parent="UI/HUD/HeaderLeft"]
 layout_mode = 2
 
-[node name="WaveProgress" type="TextureProgressBar" parent="UI/HUD/Header/MarginContainer3"]
+[node name="WaveProgress" type="TextureProgressBar" parent="UI/HUD/HeaderLeft/MarginContainer3"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 rounded = true
@@ -118,12 +150,12 @@ tint_under = Color(1, 1, 1, 0)
 tint_progress = Color(0.482353, 0.317647, 0.0588235, 0.701961)
 script = ExtResource("5_4vanx")
 
-[node name="Panel" type="Panel" parent="UI/HUD/Header/MarginContainer3"]
+[node name="Panel" type="Panel" parent="UI/HUD/HeaderLeft/MarginContainer3"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_dqo4c")
 
-[node name="CurrentWaveInfoLabel" type="Label" parent="UI/HUD/Header/MarginContainer3/Panel"]
+[node name="CurrentWaveInfoLabel" type="Label" parent="UI/HUD/HeaderLeft/MarginContainer3/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -134,39 +166,20 @@ theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/HUD/Header"]
-layout_mode = 2
-size_flags_horizontal = 10
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 16
-
-[node name="ProgressBar" type="TextureProgressBar" parent="UI/HUD/Header/MarginContainer"]
-layout_mode = 2
-fill_mode = 5
-texture_under = ExtResource("4_pv3oj")
-texture_over = ExtResource("5_sq8kh")
-texture_progress = ExtResource("4_pv3oj")
-tint_under = Color(0.905882, 0, 0.054902, 0.54902)
-tint_over = Color(0, 0, 0, 0.45098)
-tint_progress = Color(0.235294, 0.792157, 0.054902, 0.615686)
-
-[node name="Footer" type="HBoxContainer" parent="UI/HUD"]
+[node name="FooterLeft" type="MarginContainer" parent="UI/HUD"]
+custom_minimum_size = Vector2(106, 106)
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -106.0
-grow_horizontal = 2
+offset_right = 106.0
 grow_vertical = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/HUD/Footer"]
-layout_mode = 2
 size_flags_horizontal = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="ArrowTower" type="Button" parent="UI/HUD/Footer/MarginContainer" groups=["build_buttons"]]
+[node name="ArrowTower" type="Button" parent="UI/HUD/FooterLeft" groups=["build_buttons"]]
 custom_minimum_size = Vector2(90, 90)
 layout_mode = 2
 focus_mode = 0
@@ -174,7 +187,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_xwi4u")
 theme_override_styles/hover = SubResource("StyleBoxFlat_l8vit")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_muyi4")
 
-[node name="Icon" type="TextureRect" parent="UI/HUD/Footer/MarginContainer/ArrowTower"]
+[node name="Icon" type="TextureRect" parent="UI/HUD/FooterLeft/ArrowTower"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -184,24 +197,57 @@ grow_vertical = 2
 texture = ExtResource("3_vppxf")
 expand_mode = 1
 
-[node name="MarginContainer2" type="MarginContainer" parent="UI/HUD/Footer"]
+[node name="FooterCover1" type="Control" parent="UI/HUD/FooterLeft" groups=["footer_cover"]]
+visible = false
+custom_minimum_size = Vector2(90, 90)
 layout_mode = 2
+
+[node name="Panel" type="Panel" parent="UI/HUD/FooterLeft/FooterCover1"]
+material = SubResource("ShaderMaterial_codto")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FooterRight" type="MarginContainer" parent="UI/HUD"]
+custom_minimum_size = Vector2(204, 106)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -204.0
+offset_top = -106.0
+grow_horizontal = 0
+grow_vertical = 0
 size_flags_horizontal = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Footer/MarginContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/FooterRight"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="PausePlay" type="TextureButton" parent="UI/HUD/Footer/MarginContainer2/HBoxContainer"]
+[node name="PausePlay" type="TextureButton" parent="UI/HUD/FooterRight/HBoxContainer"]
 process_mode = 3
 layout_mode = 2
 toggle_mode = true
 texture_normal = ExtResource("6_cyahd")
 texture_pressed = ExtResource("5_26djg")
 
-[node name="FastForward" type="TextureButton" parent="UI/HUD/Footer/MarginContainer2/HBoxContainer"]
+[node name="FastForward" type="TextureButton" parent="UI/HUD/FooterRight/HBoxContainer"]
 layout_mode = 2
 disabled = true
 texture_normal = ExtResource("7_anmaf")
+
+[node name="FooterCover2" type="Control" parent="UI/HUD/FooterRight" groups=["footer_cover"]]
+visible = false
+custom_minimum_size = Vector2(180, 90)
+layout_mode = 2
 
 [node name="Towers" type="Node2D" parent="."]
 script = ExtResource("12_0bhr5")
@@ -210,5 +256,5 @@ script = ExtResource("12_0bhr5")
 script = ExtResource("12_yxfng")
 arrow_scene = ExtResource("13_1vxww")
 
-[connection signal="pressed" from="UI/HUD/Footer/MarginContainer2/HBoxContainer/PausePlay" to="UI" method="_on_pause_play_pressed"]
-[connection signal="pressed" from="UI/HUD/Footer/MarginContainer2/HBoxContainer/FastForward" to="UI" method="_on_fast_forward_pressed"]
+[connection signal="pressed" from="UI/HUD/FooterRight/HBoxContainer/PausePlay" to="UI" method="_on_pause_play_pressed"]
+[connection signal="pressed" from="UI/HUD/FooterRight/HBoxContainer/FastForward" to="UI" method="_on_fast_forward_pressed"]

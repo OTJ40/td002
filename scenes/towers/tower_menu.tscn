@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cagq3wea5nsak"]
+[gd_scene load_steps=10 format=3 uid="uid://cagq3wea5nsak"]
 
 [ext_resource type="Shader" path="res://assets/shaders/blur_01.gdshader" id="1_01c10"]
 [ext_resource type="Script" path="res://scripts/tower_menu.gd" id="1_7rxvc"]
@@ -6,7 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://j1s0ya78bmt6" path="res://assets/upgrade_btn_01_hover.png" id="3_y12a4"]
 [ext_resource type="Texture2D" uid="uid://cnympb5qaq60w" path="res://assets/sell_btn_01.png" id="4_skdx5"]
 [ext_resource type="Texture2D" uid="uid://blcuelsdmmaee" path="res://assets/sell_btn_01_hover.png" id="5_cb44h"]
-[ext_resource type="LabelSettings" uid="uid://nis6xtmkq4lw" path="res://assets/themes/btn_lbl_settings.tres" id="6_a3150"]
+[ext_resource type="Texture2D" uid="uid://nkdhp3lse8rr" path="res://assets/info_btn_01.png" id="7_ms0d6"]
+[ext_resource type="Texture2D" uid="uid://dxqu8gq0lsqgv" path="res://assets/info_btn_01_hover.png" id="8_6hcok"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a7la0"]
 shader = ExtResource("1_01c10")
@@ -23,13 +24,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -800.0
-offset_top = -480.0
-offset_right = -656.0
-offset_bottom = -380.0
+offset_left = -872.0
+offset_top = -552.0
+offset_right = -728.0
+offset_bottom = -408.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(70, 50)
 size_flags_horizontal = 6
 size_flags_vertical = 6
 mouse_filter = 2
@@ -75,23 +75,12 @@ texture_hover = ExtResource("5_cb44h")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-alignment = 1
 
-[node name="UpLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Info" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-size_flags_horizontal = 6
-text = "Up"
-label_settings = ExtResource("6_a3150")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="SellLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 6
-text = "Sell"
-label_settings = ExtResource("6_a3150")
-horizontal_alignment = 1
-vertical_alignment = 1
+texture_normal = ExtResource("7_ms0d6")
+texture_hover = ExtResource("8_6hcok")
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Up" to="." method="_on_up_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Sell" to="." method="_on_sell_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/Info" to="." method="_on_info_pressed"]

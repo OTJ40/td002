@@ -6,7 +6,7 @@ var tower_data = {
 	"ArrowTower": {
 		"damage": 80,
 		"rate": 1,
-		"range": 250,
+		"range": 125,
 	},
 }
 

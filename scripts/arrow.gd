@@ -11,8 +11,8 @@ var direction = Vector2.ZERO
 var life_timer = Timer.new()
 
 func _ready() -> void:
-	#print(tower)
-	DAMAGE = GameData.tower_data["ArrowTower"]["damage"]
+	print(tower)
+	DAMAGE = tower.get_node("Data").damage
 	arrow_texture = load("res://assets/arrow_01.png")
 	life_timer.timeout.connect(_arrow_destruction)
 	life_timer.wait_time = 1.2
@@ -27,6 +27,7 @@ func _process(delta: float) -> void:
 			
 
 func _arrow_destruction():
+	$Hitbox.set_deferred("disabled",true)
 	queue_free()
 
 func set_direction(dir):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://wu3iermqd1an"]
+[gd_scene load_steps=14 format=3 uid="uid://wu3iermqd1an"]
 
 [ext_resource type="Script" path="res://scripts/ArrowTower.gd" id="1_hlp86"]
 [ext_resource type="Texture2D" uid="uid://djpr4duac7s3x" path="res://assets/arrow_tower_02_base.png" id="2_012o6"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://cagq3wea5nsak" path="res://scenes/towers/tower_menu.tscn" id="5_2xrhe"]
 [ext_resource type="PackedScene" uid="uid://dp30lu28wtl30" path="res://scenes/towers/sell_dialog.tscn" id="6_py80h"]
 [ext_resource type="PackedScene" uid="uid://bo5sdjroccamu" path="res://scenes/towers/up_menu.tscn" id="7_p7kho"]
+[ext_resource type="PackedScene" uid="uid://br7aytfd8s2wv" path="res://scenes/towers/info.tscn" id="8_uuqj2"]
+[ext_resource type="Script" path="res://scripts/Data.gd" id="9_r050j"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tw0vi"]
 resource_local_to_scene = true
@@ -75,8 +77,6 @@ horizontal_alignment = 1
 
 [node name="TowerMenu" parent="." instance=ExtResource("5_2xrhe")]
 visible = false
-offset_top = -502.0
-offset_bottom = -358.0
 
 [node name="SellDialog" parent="." instance=ExtResource("6_py80h")]
 visible = false
@@ -94,6 +94,12 @@ offset_right = 72.0
 offset_bottom = 72.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Info" parent="." instance=ExtResource("8_uuqj2")]
+visible = false
+
+[node name="Data" type="Node" parent="."]
+script = ExtResource("9_r050j")
 
 [connection signal="mouse_entered" from="Bounds" to="." method="_on_bounds_mouse_entered"]
 [connection signal="mouse_exited" from="Bounds" to="." method="_on_bounds_mouse_exited"]

@@ -4,9 +4,9 @@ signal shoot
 signal tower_sold
 signal level_up
 
-@export var FIRE_COOLDOWN = 1.0
-@export var INFO_TIME_COOLDOWN = 0.6
-@export var HOVER_TIME_COOLDOWN = 0.001
+var FIRE_COOLDOWN = 1.0
+@export var INFO_TIME_COOLDOWN = 0.4
+@export var HOVER_TIME_COOLDOWN = 0.2
 
 const BOUNDS_HOVERING_RADIUS = 48.0
 const BOUNDS_NORMAL_RADIUS = 32.0
@@ -19,6 +19,7 @@ var tile_coords = Vector2.ZERO
 
 # === interaction === #
 var _has_open_menu = false
+var _has_open_dialog = false
 var is_show_info_panel = false
 var is_mouse_on_tower = false
 var out_of_bounds_timer = Timer.new()
@@ -34,6 +35,7 @@ var target_array = []
 #var temp_points = 0
 #var point_coef = 0.2
 var level = 1
+var levels_to_upgrade = 0
 var xp = 0
 var kills = 0
 #var hits = 0
@@ -58,22 +60,39 @@ func _ready() -> void:
 		hover_on_tower_timer.one_shot = true
 		add_child(hover_on_tower_timer)
 		
-		$Range/CollisionShape2D.shape.radius = 0.5 * GameData.tower_data[tower_type]["range"]
+		$Range/CollisionShape2D.shape.radius = $Data.t_range # GameData.tower_data[tower_type]["range"]
 		shoot.connect($"../../Arrows".create_arrow)
 		tower_sold.connect(Callable(get_parent().get_parent(),"on_tower_sold").bind(tile_coords))
+		retrieve_info()
+
+func retrieve_info():
+	var text = "damage = " + str(($Data.damage))
+	text += "\n"+"rate = " + str($Data.rate)
+	text += "\n"+"range = " + str($Data.t_range)
+	text += "\n"+"level = " + str(level)
+	$Info.set_label(text)
 
 func _process(_delta: float) -> void:
+	
+	#print(levels_to_upgrade)
 	if is_tower_built:
 		if not get_parent().any_tower_has_open_menu(self):
 			show_menu()
 		
 		check_level()
+		check_upgrade_possibility()
+
+func check_upgrade_possibility():
+	if levels_to_upgrade > 0:
+		$Skins/Base.modulate = Color.RED
+	else:
+		$Skins/Base.modulate = Color("ffffff")
 
 func check_level():
-	prints(level,xp)
 	if xp >= GameData.levels_xp[level-1].y:
 		level_up.emit()
 		level += 1
+		levels_to_upgrade += 1
 
 func _physics_process(_delta: float) -> void:
 	if any_target_in_range and is_tower_built:
@@ -84,7 +103,7 @@ func _physics_process(_delta: float) -> void:
 			if is_playing:
 				shoot.emit(direction_to_target,position,self)
 				weapon_loaded = false
-				fire_cooldown_timer.start(FIRE_COOLDOWN)
+				fire_cooldown_timer.start($Data.rate)
 		else:
 			$Skins/Bow.visible = false
 			$Skins/BowLoosen.visible = true
@@ -135,19 +154,17 @@ func _on_range_area_exited(area: Area2D) -> void:
 		any_target_in_range = false
 
 func _on_bounds_mouse_entered() -> void:
-	# todo make timer for hovering
-	if is_tower_built:
-		hover_on_tower_timer.start(HOVER_TIME_COOLDOWN)
+	if is_tower_built and not _has_open_dialog:
+		hover_on_tower_timer.start(G.get_time_cooldown(HOVER_TIME_COOLDOWN))
 	get_node("Bounds/CollisionShape2D").shape.radius = BOUNDS_HOVERING_RADIUS
 	out_of_bounds_timer.stop()
-
 
 func _on_bounds_mouse_exited() -> void:
 	hover_on_tower_timer.stop()
 	get_node("Bounds/CollisionShape2D").shape.radius = BOUNDS_NORMAL_RADIUS
 	if is_tower_built:
 		is_mouse_on_tower = false
-		out_of_bounds_timer.start(get_time_info_cooldown())
+		out_of_bounds_timer.start(G.get_time_cooldown(INFO_TIME_COOLDOWN))
 
 func _on_hover_on_tower_timeout():
 	if is_tower_built:
@@ -158,26 +175,50 @@ func _on_out_of_bounds_timeout():
 	is_show_info_panel = false
 
 func _on_up_pressed():
+	_has_open_dialog = true
 	$UpMenu.visible = true
 	$Bounds.visible = false
 	is_mouse_on_tower = false
 	is_show_info_panel = false
 
 func _on_sell_pressed():
+	_has_open_dialog = true
 	$SellDialog.visible = true
 	$Bounds.visible = false
 	is_mouse_on_tower = false
 	is_show_info_panel = false
 
+func _on_damage_pressed():
+	if levels_to_upgrade > 0:
+		$Data.damage *= 1.1
+		levels_to_upgrade -= 1
+	_on_cancel_pressed()
+
+func _on_rate_pressed():
+	if levels_to_upgrade > 0:
+		$Data.rate *= 0.9
+		levels_to_upgrade -= 1
+	_on_cancel_pressed()
+
+func _on_info_pressed():
+	retrieve_info()
+	_has_open_dialog = true
+	$Info.visible = true
+	$Bounds.visible = false
+	is_mouse_on_tower = false
+	is_show_info_panel = false
+
 func _on_dialog_ok_pressed() -> void:
+	_has_open_dialog = false
 	tower_sold.emit()
-	await G.timer(0.4)
+	await G.timer(G.get_time_cooldown(INFO_TIME_COOLDOWN))
 	call_deferred("queue_free")
 
-func _on_dialog_cancel_pressed() -> void:
+func _on_cancel_pressed() -> void:
+	await G.timer(G.get_time_cooldown(INFO_TIME_COOLDOWN))
+	_has_open_dialog = false
 	$SellDialog.visible = false
-	await G.timer(0.4)
+	$UpMenu.visible = false
+	$Info.visible = false
 	$Bounds.visible = true
 
-func get_time_info_cooldown():
-	return INFO_TIME_COOLDOWN * Engine.get_time_scale()
