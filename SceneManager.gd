@@ -24,7 +24,7 @@ func _on_game_finished():
 
 func _on_game_started():
 	var new_game = GAME_SCENE.instantiate()
-	new_game.modulate = Color("ffffff00")
+	#new_game.modulate = Color("ffffff00")
 	var tween = create_tween()
 	add_child(new_game)
 	tween.tween_property(new_game,"modulate",Color("ffffff"),0.7)

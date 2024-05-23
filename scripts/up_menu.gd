@@ -42,6 +42,7 @@ func _on_up_damage_mouse_exited() -> void:
 	info_hover.emit("")
 
 func _on_up_range_mouse_entered() -> void:
+	var text = "Upgrade range to " + str(tower.get_node("Data").range*1.1) + " from " + str(tower.get_node("Data").t_range)
 	info_hover.emit("Upgrade range")
 
 func _on_up_range_mouse_exited() -> void:

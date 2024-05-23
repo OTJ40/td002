@@ -1,20 +1,36 @@
-[gd_scene load_steps=25 format=3 uid="uid://cvl48ut3k8bwc"]
+[gd_scene load_steps=26 format=3 uid="uid://cvl48ut3k8bwc"]
 
 [ext_resource type="Script" path="res://scripts/game_scene.gd" id="1_7648q"]
 [ext_resource type="PackedScene" uid="uid://c54khy0llqpmk" path="res://scenes/maps/map_1.tscn" id="1_r321l"]
 [ext_resource type="Script" path="res://scripts/UI.gd" id="3_n8aiq"]
 [ext_resource type="Texture2D" uid="uid://batr60qj4r6bf" path="res://assets/arrow_tower_01.png" id="3_vppxf"]
 [ext_resource type="Texture2D" uid="uid://4007bn4htv0t" path="res://assets/HPbar_01.png" id="4_5w5kb"]
-[ext_resource type="Texture2D" uid="uid://c8tk0ekkmaaqn" path="res://assets/health_circle.png" id="4_pv3oj"]
+[ext_resource type="FontFile" uid="uid://carhdkdeua43w" path="res://assets/Redkost Comic.otf" id="4_h23ay"]
 [ext_resource type="Script" path="res://scripts/WaveProgress.gd" id="5_4vanx"]
 [ext_resource type="Texture2D" uid="uid://cyj4vvby200gj" path="res://assets/pause.png" id="5_26djg"]
-[ext_resource type="Texture2D" uid="uid://b2c8wkdb7r2he" path="res://assets/health_circle_hole.png" id="5_sq8kh"]
 [ext_resource type="Texture2D" uid="uid://b2u625l0yp4kg" path="res://assets/right.png" id="6_cyahd"]
 [ext_resource type="LabelSettings" uid="uid://nis6xtmkq4lw" path="res://assets/themes/btn_lbl_settings.tres" id="6_uqv85"]
 [ext_resource type="Texture2D" uid="uid://7fxmyp4s27gt" path="res://assets/fastForward.png" id="7_anmaf"]
 [ext_resource type="Script" path="res://scripts/Towers.gd" id="12_0bhr5"]
 [ext_resource type="Script" path="res://scripts/Arrows.gd" id="12_yxfng"]
 [ext_resource type="PackedScene" uid="uid://cnaqu4mvgxucd" path="res://scenes/towers/arrow.tscn" id="13_1vxww"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s6utu"]
+bg_color = Color(0.482353, 0.317647, 0.0588235, 0.701961)
+border_width_left = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.690196, 0.407843, 0.403922, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1nbxl"]
+bg_color = Color(0.964706, 0.862745, 0.321569, 0.898039)
+border_width_left = 4
+border_width_top = 3
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.8, 0.8, 0.8, 0)
+border_blend = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gb26y"]
 
@@ -23,7 +39,7 @@ bg_color = Color(0.482353, 0.317647, 0.0588235, 0.701961)
 border_width_left = 5
 border_width_top = 5
 border_width_bottom = 5
-border_color = Color(0.689476, 0.406346, 0.404588, 1)
+border_color = Color(0.690196, 0.407843, 0.403922, 1)
 border_blend = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dqo4c"]
@@ -113,29 +129,39 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="HeaderRight" type="MarginContainer" parent="UI/HUD"]
+[node name="HeaderRight" type="HBoxContainer" parent="UI/HUD"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -72.0
-offset_bottom = 72.0
+offset_left = -84.0
+offset_top = 10.0
+offset_bottom = 60.0
 grow_horizontal = 0
 size_flags_horizontal = 10
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 0
 
-[node name="ProgressBar" type="TextureProgressBar" parent="UI/HUD/HeaderRight"]
+[node name="MoneyLabel" type="Label" parent="UI/HUD/HeaderRight"]
 layout_mode = 2
-fill_mode = 5
-texture_under = ExtResource("4_pv3oj")
-texture_over = ExtResource("5_sq8kh")
-texture_progress = ExtResource("4_pv3oj")
-tint_under = Color(0.905882, 0, 0.054902, 0.54902)
-tint_over = Color(0, 0, 0, 0.45098)
-tint_progress = Color(0.235294, 0.792157, 0.054902, 0.615686)
+text = "10/10"
+label_settings = ExtResource("6_uqv85")
+
+[node name="ProgressBar" type="ProgressBar" parent="UI/HUD/HeaderRight"]
+custom_minimum_size = Vector2(30, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.964706, 0.862745, 0.321569, 0.898039)
+theme_override_colors/font_outline_color = Color(0.631373, 0.631373, 0.631373, 0.776471)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("4_h23ay")
+theme_override_styles/background = SubResource("StyleBoxFlat_s6utu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1nbxl")
+value = 36.0
+fill_mode = 3
+show_percentage = false
+
+[node name="Control" type="Control" parent="UI/HUD/HeaderRight"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
 
 [node name="HeaderLeft" type="HBoxContainer" parent="UI/HUD"]
 custom_minimum_size = Vector2(600, 36)

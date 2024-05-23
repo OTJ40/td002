@@ -12,6 +12,7 @@ var tower_data = {
 }
 
 var levels_xp = []
+var moneypools = [100.0,120.0,160.0,210.0,270.0,340.0,420.0]
 
 func set_levels_xp(base_xp,exponent):
 	var level = 1
@@ -21,6 +22,9 @@ func set_levels_xp(base_xp,exponent):
 		level += 1
 		levels_xp.append(Vector2i(level,xp))
 	print(levels_xp)
+
+#func moneypools():
+	#var a = []
 
 func get_wave_data(wave_num):
 	randomize()

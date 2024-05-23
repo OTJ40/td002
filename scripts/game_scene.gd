@@ -5,8 +5,17 @@ signal game_finished
 const CANCEL_TIME_COOLDOWN = 0.4
 # todo 1 - moneypool
 @export var TIME_BETWEEN_WAVES = 2.5
+@export var TOWER_COST = 50.0
 @export var map_node: PackedScene
-@export var health = 100
+#@export var health = 100
+
+# === money === #
+var money = 90.0
+var t = 0
+var money_factor = 1.0
+var money_pool = 30.0
+var moneypool_level = 0
+
 
 # === setting === #
 var map_instance
@@ -23,7 +32,9 @@ var build_type
 var build_tile
 
 func _ready() -> void:
-	get_node("UI").update_health(health)
+	G.is_game_slowed = true
+	Engine.set_time_scale(0.001)
+	get_node("UI").update_health(money,GameData.moneypools[moneypool_level])
 	get_node("UI").update_next_wave_info(current_wave)
 	
 	game_finished.connect(Callable(get_parent(),"_on_game_finished"))
@@ -34,7 +45,23 @@ func _ready() -> void:
 	for build_button in get_tree().get_nodes_in_group("build_buttons"):
 		build_button.pressed.connect(start_build_mode.bind(build_button.name))
 
+func check_moneypool():
+	if money > GameData.moneypools[moneypool_level]:
+		moneypool_level += 1
+		money_factor += 0.1
+
+func _physics_process(delta: float) -> void:
+	check_moneypool()
+	t += 1
+	if t == 6:
+		get_node("UI").update_health(money,GameData.moneypools[moneypool_level])
+		t = 0
+	if not G.is_game_slowed:
+		money += delta * money_factor
+	prints(money,moneypool_level,money_factor,t)
+
 func _process(_delta: float) -> void:
+	
 	if bailiffs_on_field_array.size() <= 0 and current_wave_finished and current_wave > 0:
 		$UI/HUD/HeaderLeft/MarginContainer3/WaveProgress.reset_wave_progress()
 		start_next_wave()
@@ -70,13 +97,15 @@ func cancel_build_mode():
 
 func verify_and_build():
 	if is_build_valid:
-		var new_tower_instance = load("res://scenes/towers/" + build_type + ".tscn").instantiate()
-		new_tower_instance.position = build_location
-		new_tower_instance.is_tower_built = true
-		new_tower_instance.tower_type = build_type
-		new_tower_instance.tile_coords = build_tile
-		get_node("Towers").add_child(new_tower_instance,true)
-		map_instance.get_node("Exclusions").set_cell(0,build_tile,3,Vector2(0,0))
+		if money >= TOWER_COST:
+			var new_tower_instance = load("res://scenes/towers/" + build_type + ".tscn").instantiate()
+			new_tower_instance.position = build_location
+			new_tower_instance.is_tower_built = true
+			new_tower_instance.tower_type = build_type
+			new_tower_instance.tile_coords = build_tile
+			get_node("Towers").add_child(new_tower_instance,true)
+			map_instance.get_node("Exclusions").set_cell(0,build_tile,3,Vector2(0,0))
+			money -= TOWER_COST
 
 func stop_show_menus_in_build_mode():
 	var towers = get_node("Towers").get_children()
@@ -144,8 +173,8 @@ func bailiff_death(bailiff):
 
 func on_base_damage(damage,bailiff):
 	bailiffs_on_field_array.erase(bailiff)
-	health -= damage
-	if health <= 0:
+	money -= damage
+	if money <= 0:
 		G.game_speed(0.2)
 		arrows_off()
 		towers_off()
@@ -153,7 +182,7 @@ func on_base_damage(damage,bailiff):
 		game_finished.emit()
 		queue_free()
 	else:
-		get_node("UI").update_health(health)
+		get_node("UI").update_health(money,GameData.moneypools[moneypool_level])
 
 func arrows_off():
 	var arrows = $Arrows.get_children()

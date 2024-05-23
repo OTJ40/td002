@@ -34,16 +34,17 @@ func update_tower_preview(new_position, color):
 func _on_pause_play_pressed() -> void:
 	if get_parent().is_build_mode:
 		get_parent().cancel_build_mode()
-	if Engine.get_time_scale() == 0.001:
-		Engine.set_time_scale(1.0)
+	if get_parent().current_wave == 0:
 		G.is_game_slowed = false
-	elif get_parent().current_wave == 0:
+		Engine.set_time_scale(1.0)
 		$HUD/FooterRight/HBoxContainer/FastForward.disabled = false
-		#get_parent().current_wave += 1
 		get_parent().start_next_wave()
+	elif Engine.get_time_scale() == 0.0001:
+		G.is_game_slowed = false
+		Engine.set_time_scale(1.0)
 	else:
-		Engine.set_time_scale(0.001)
 		G.is_game_slowed = true
+		Engine.set_time_scale(0.0001)
 		
 	#if get_tree().is_paused():
 		#get_tree().set_pause(false)
@@ -61,8 +62,12 @@ func update_next_wave_info(wave):
 func update_current_info(num,total):
 	$HUD/HeaderLeft/MarginContainer3/Panel/CurrentWaveInfoLabel.text = "Current Wave: "+str(num)+"/"+str(total)
 
-func update_health(health):
+func update_health(health,max_health):
 	#print(health)
+	if health < 0.0:
+		health = 0.0
+	$HUD/HeaderRight/MoneyLabel.text = str(round(health))+"/"+str(max_health)
+	$HUD/HeaderRight/ProgressBar.max_value = max_health
 	$HUD/HeaderRight/ProgressBar.value = health
 
 func _on_fast_forward_pressed() -> void:
@@ -70,7 +75,7 @@ func _on_fast_forward_pressed() -> void:
 	$HUD/FooterRight/HBoxContainer/PausePlay.button_pressed = true
 	if get_parent().is_build_mode:
 		get_parent().cancel_build_mode()
-	if Engine.get_time_scale() == 3.0:
-		Engine.set_time_scale(1.0)
+	if Engine.get_time_scale() == 2.0:
+		G.game_speed(1.0)
 	else:
-		Engine.set_time_scale(3.0)
+		G.game_speed(2.0)

@@ -24,7 +24,7 @@ func _physics_process(delta: float) -> void:
 	move(delta)
 
 func pillage_base():
-	base_damage.emit(bailiff_resource.hp/hp_max,self)
+	base_damage.emit((bailiff_resource.hp/hp_max)*10.0,self)
 	queue_free()
 
 func move(delta):
