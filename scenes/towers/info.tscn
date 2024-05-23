@@ -6,13 +6,13 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kku1f"]
 shader = ExtResource("1_vmgnj")
-shader_parameter/blur_amount = 1.0
-shader_parameter/mix_amount = null
+shader_parameter/blur_amount = 0.7
+shader_parameter/mix_amount = 0.0
 shader_parameter/color_over = null
 
 [sub_resource type="LabelSettings" id="LabelSettings_yx6a6"]
 font = ExtResource("2_bbk5w")
-font_size = 12
+font_size = 13
 font_color = Color(0.964706, 0.862745, 0.321569, 1)
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -60,7 +60,6 @@ theme_override_constants/margin_bottom = 4
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 mouse_filter = 0
-text = "lguylyglgu;luglytdjytdjytdyjtdydt  yt tdktd k dtktd kdt ktdktd,,"
 label_settings = SubResource("LabelSettings_yx6a6")
 horizontal_alignment = 1
 vertical_alignment = 1

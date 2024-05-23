@@ -2,7 +2,7 @@ extends Area2D
 
 class_name Arrow
 
-@export var SPEED = 400.0
+var SPEED
 var DAMAGE
 
 var tower
@@ -11,11 +11,12 @@ var direction = Vector2.ZERO
 var life_timer = Timer.new()
 
 func _ready() -> void:
-	print(tower)
 	DAMAGE = tower.get_node("Data").damage
+	SPEED = tower.get_node("Data").speed
+	#print(SPEED)
 	arrow_texture = load("res://assets/arrow_01.png")
 	life_timer.timeout.connect(_arrow_destruction)
-	life_timer.wait_time = 1.2
+	life_timer.wait_time = 1.5
 	life_timer.one_shot = true
 	life_timer.autostart = true
 	add_child(life_timer)

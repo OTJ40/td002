@@ -3,7 +3,7 @@ extends Node2D
 signal game_finished
 
 const CANCEL_TIME_COOLDOWN = 0.4
-
+# todo 1 - moneypool
 @export var TIME_BETWEEN_WAVES = 2.5
 @export var map_node: PackedScene
 @export var health = 100
@@ -46,6 +46,7 @@ func _process(_delta: float) -> void:
 	tower_menu_mode()
 
 func _unhandled_input(event: InputEvent) -> void:
+	#print(event)
 	if is_build_mode:
 		if event.is_action_released("left_click"):
 			verify_and_build()
@@ -125,7 +126,9 @@ func spawn_enemies(wave_data):
 		= load("res://scenes/enemies/" + next_monster_name + ".tscn").instantiate()
 		
 		new_bailiff_instance.base_damage.connect(Callable(self,"on_base_damage"))
-		new_bailiff_instance.bailiff_death.connect(Callable(self,"bailiff_off"))
+		new_bailiff_instance.bailiff_death.connect(Callable(self,"bailiff_death"))
+		new_bailiff_instance.bailiff_resource.hp += current_wave-1
+		new_bailiff_instance.bailiff_resource.speed += (current_wave-1)*0.5
 		
 		bailiffs_on_field_array.append(new_bailiff_instance)
 		var path_array = map_instance.get_node("Paths").get_children()
@@ -136,7 +139,7 @@ func spawn_enemies(wave_data):
 		await G.timer(next_monster_time)
 	current_wave_finished = true
 
-func bailiff_off(bailiff):
+func bailiff_death(bailiff):
 	bailiffs_on_field_array.erase(bailiff)
 
 func on_base_damage(damage,bailiff):
@@ -164,6 +167,18 @@ func towers_off():
 
 func on_tower_sold(_tile_coords):
 	map_instance.get_node("Exclusions").erase_cell(0,_tile_coords)
+
+func _on_info_hover(_text):
+	var l = Label.new()
+	l.label_settings = load("res://assets/themes/btn_lbl_settings.tres")
+	l.text = "     " + _text + "    "
+	$UI/HUD/HeaderLeft/Container.add_child(l)
+	#var tween = get_tree().create_tween().bind_node(l)
+	if _text == "":
+		for i in $UI/HUD/HeaderLeft/Container.get_children():
+			$UI/HUD/HeaderLeft/Container.remove_child(i)
+	#tween.tween_property(l,"size",Vector2(l.size.x,36),0.3)
+		
 
 func tower_menu_mode():
 	for i in get_tree().get_nodes_in_group("footer_cover"):

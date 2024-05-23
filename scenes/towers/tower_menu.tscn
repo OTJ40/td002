@@ -81,6 +81,12 @@ layout_mode = 2
 texture_normal = ExtResource("7_ms0d6")
 texture_hover = ExtResource("8_6hcok")
 
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer/Up" to="." method="_on_up_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/HBoxContainer/Up" to="." method="_on_up_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Up" to="." method="_on_up_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer/Sell" to="." method="_on_sell_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/HBoxContainer/Sell" to="." method="_on_sell_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Sell" to="." method="_on_sell_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer2/Info" to="." method="_on_info_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/HBoxContainer2/Info" to="." method="_on_info_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/Info" to="." method="_on_info_pressed"]

@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 
+
 func set_tower_preview(tower_type, mouse_position):
 	var path = "res://scenes/towers/" + tower_type + ".tscn"
 	var drag_tower_instance = load(path).instantiate()
@@ -55,7 +56,7 @@ func _on_pause_play_pressed() -> void:
 func update_next_wave_info(wave):
 	wave += 1
 	$HUD/HeaderLeft/MarginContainer2/Panel/WaveInfoLabel.text = \
-	"Next Wave: " + str(wave) + " assailants"
+	"Next Wave: " + str(wave) + " bailiffs"
 
 func update_current_info(num,total):
 	$HUD/HeaderLeft/MarginContainer3/Panel/CurrentWaveInfoLabel.text = "Current Wave: "+str(num)+"/"+str(total)

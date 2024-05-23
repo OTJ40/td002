@@ -9,7 +9,6 @@ size = Vector2(16, 4)
 [node name="Arrow" type="Area2D"]
 scale = Vector2(0.6, 0.6)
 script = ExtResource("1_vm38f")
-SPEED = 600.0
 
 [node name="Skin" type="Sprite2D" parent="."]
 texture = ExtResource("1_7gtd6")

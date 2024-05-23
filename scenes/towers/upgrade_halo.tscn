@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://ps1d4p6vuf2u"]
+
+[ext_resource type="Texture2D" uid="uid://eqlcidchtji6" path="res://assets/particles/atlas_01.png" id="1_co0go"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uqhv6"]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_3okcd"]
+_data = [Vector2(0.0454545, 0.43314), 0.0, 0.0, 0, 0, Vector2(0.264463, 0.496124), 0.0, 0.0, 0, 0, Vector2(0.557851, 0.420543), 0.0, 0.0, 0, 0, Vector2(0.847107, 0.559109), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_n8hrh"]
+min_value = -1.0
+_data = [Vector2(0.0165289, -0.158915), 0.0, 0.0, 0, 0, Vector2(0.256198, 0.218992), 0.0, 0.0, 0, 0, Vector2(0.471074, 0.0174417), 0.0, 0.0, 0, 0, Vector2(0.772727, 0.244186), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[node name="UpgradeHalo" type="CPUParticles2D"]
+material = SubResource("CanvasItemMaterial_uqhv6")
+amount = 4
+speed_scale = 2.0
+explosiveness = 0.76
+texture = ExtResource("1_co0go")
+gravity = Vector2(0, 0)
+angle_max = 360.0
+scale_amount_curve = SubResource("Curve_3okcd")
+color = Color(1, 1, 0, 0.431373)
+hue_variation_min = 0.17
+hue_variation_max = 0.63
+hue_variation_curve = SubResource("Curve_n8hrh")
+anim_speed_min = 0.1
+anim_speed_max = 0.5
+anim_offset_max = 1.0

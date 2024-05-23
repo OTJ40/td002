@@ -4,9 +4,10 @@ const ENEMY_TYPE = "Bailiff"
 
 var tower_data = {
 	"ArrowTower": {
-		"damage": 80,
+		"damage": 30,
 		"rate": 1,
 		"range": 125,
+		"speed": 600,
 	},
 }
 
@@ -15,7 +16,7 @@ var levels_xp = []
 func set_levels_xp(base_xp,exponent):
 	var level = 1
 	var xp = 0
-	for i in range(1,27):
+	for i in range(1,37):
 		xp = round(pow((level),exponent)*base_xp)
 		level += 1
 		levels_xp.append(Vector2i(level,xp))

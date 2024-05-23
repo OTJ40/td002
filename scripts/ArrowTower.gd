@@ -6,9 +6,9 @@ signal level_up
 
 var FIRE_COOLDOWN = 1.0
 @export var INFO_TIME_COOLDOWN = 0.4
-@export var HOVER_TIME_COOLDOWN = 0.2
+@export var HOVER_TIME_COOLDOWN = 0.1
 
-const BOUNDS_HOVERING_RADIUS = 48.0
+const BOUNDS_HOVERING_RADIUS = 56.0
 const BOUNDS_NORMAL_RADIUS = 32.0
 
 # === setting === #
@@ -66,10 +66,11 @@ func _ready() -> void:
 		retrieve_info()
 
 func retrieve_info():
-	var text = "damage = " + str(($Data.damage))
-	text += "\n"+"rate = " + str($Data.rate)
-	text += "\n"+"range = " + str($Data.t_range)
-	text += "\n"+"level = " + str(level)
+	var text = "damage = %s%s%s%s" % [str($Data.damage),"(",str(GameData.tower_data["ArrowTower"]["damage"]),")"]
+	text += "\n"+"rate = %s%s%s%s" % [str($Data.rate),"(",str(GameData.tower_data["ArrowTower"]["rate"]),")"]
+	text += "\n"+"range = %s%s%s%s" % [str($Data.t_range),"(",str(GameData.tower_data["ArrowTower"]["range"]),")"]
+	text += "\n"+"speed = %s%s%s%s" % [str($Data.speed),"(",str(GameData.tower_data["ArrowTower"]["speed"]),")"]
+	text += "\n"+"level = %s%s%s%s" % [str(level),"(",str(levels_to_upgrade),")"]
 	$Info.set_label(text)
 
 func _process(_delta: float) -> void:
@@ -84,8 +85,10 @@ func _process(_delta: float) -> void:
 
 func check_upgrade_possibility():
 	if levels_to_upgrade > 0:
+		$UpgradeHalo.visible = true
 		$Skins/Base.modulate = Color.RED
 	else:
+		$UpgradeHalo.visible = false
 		$Skins/Base.modulate = Color("ffffff")
 
 func check_level():
@@ -93,6 +96,7 @@ func check_level():
 		level_up.emit()
 		level += 1
 		levels_to_upgrade += 1
+		retrieve_info()
 
 func _physics_process(_delta: float) -> void:
 	if any_target_in_range and is_tower_built:
@@ -175,11 +179,12 @@ func _on_out_of_bounds_timeout():
 	is_show_info_panel = false
 
 func _on_up_pressed():
-	_has_open_dialog = true
-	$UpMenu.visible = true
-	$Bounds.visible = false
-	is_mouse_on_tower = false
-	is_show_info_panel = false
+	if levels_to_upgrade > 0:
+		_has_open_dialog = true
+		$Bounds.visible = false
+		is_mouse_on_tower = false
+		is_show_info_panel = false
+		$UpMenu.visible = true
 
 func _on_sell_pressed():
 	_has_open_dialog = true
@@ -197,6 +202,20 @@ func _on_damage_pressed():
 func _on_rate_pressed():
 	if levels_to_upgrade > 0:
 		$Data.rate *= 0.9
+		levels_to_upgrade -= 1
+	_on_cancel_pressed()
+
+func _on_range_pressed():
+	if levels_to_upgrade > 0:
+		$Data.t_range *= 1.1
+		get_node("Range/CollisionShape2D").shape.radius = $Data.t_range
+		#$Range/CollisionShape2D.shape.radius = $Data.t_range
+		levels_to_upgrade -= 1
+	_on_cancel_pressed()
+
+func _on_speed_pressed():
+	if levels_to_upgrade > 0:
+		$Data.speed *= 1.1
 		levels_to_upgrade -= 1
 	_on_cancel_pressed()
 

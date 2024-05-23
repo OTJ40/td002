@@ -8,8 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://bwpihw5meegxv" path="res://assets/upgrade_range_btn_01_hover.png" id="4_mbclc"]
 [ext_resource type="Texture2D" uid="uid://d0pdi8gbnm82c" path="res://assets/upgrade_rate_btn_01.png" id="5_w8ibl"]
 [ext_resource type="Texture2D" uid="uid://biiuul17p5ai8" path="res://assets/upgrade_rate_btn_01_hover.png" id="6_k43bh"]
-[ext_resource type="Texture2D" uid="uid://dsvrfh5gbiraa" path="res://assets/back_btn_01.png" id="8_arkmh"]
-[ext_resource type="Texture2D" uid="uid://cv14so45sbc4g" path="res://assets/back_btn_01_hover.png" id="9_bcq1c"]
+[ext_resource type="Texture2D" uid="uid://cgkd3aqui54be" path="res://assets/upgrade_speed_btn_01.png" id="9_1vvq0"]
+[ext_resource type="Texture2D" uid="uid://dfdxvgmpo8tvv" path="res://assets/upgrade_speed_btn_01_hover.png" id="10_882vh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ueefr"]
 shader = ExtResource("1_j1hrr")
@@ -67,11 +67,20 @@ layout_mode = 2
 texture_normal = ExtResource("5_w8ibl")
 texture_hover = ExtResource("6_k43bh")
 
-[node name="Cancel" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="UpSpeed" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-texture_normal = ExtResource("8_arkmh")
-texture_hover = ExtResource("9_bcq1c")
+texture_normal = ExtResource("9_1vvq0")
+texture_hover = ExtResource("10_882vh")
 
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer/UpDamage" to="." method="_on_up_damage_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/HBoxContainer/UpDamage" to="." method="_on_up_damage_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/UpDamage" to="." method="_on_up_damage_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer/UpRange" to="." method="_on_up_range_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/HBoxContainer/UpRange" to="." method="_on_up_range_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/UpRange" to="." method="_on_up_range_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer2/UpRate" to="." method="_on_up_rate_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/HBoxContainer2/UpRate" to="." method="_on_up_rate_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/UpRate" to="." method="_on_up_rate_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/Cancel" to="." method="_on_cancel_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer2/UpSpeed" to="." method="_on_up_speed_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/HBoxContainer2/UpSpeed" to="." method="_on_up_speed_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/UpSpeed" to="." method="_on_up_speed_pressed"]

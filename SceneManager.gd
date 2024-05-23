@@ -4,8 +4,8 @@ extends Node
 @export var DEATH_SPLASH_SCREEN: PackedScene
 @export var GAME_SCENE: PackedScene
 
-@export var base_xp: float = 10.0
-@export var exponent: float = 1.5
+@export var base_xp: float = 15.0
+@export var exponent: float = 1.4 # 1.45
 
 func _ready() -> void:
 	GameData.set_levels_xp(base_xp,exponent)

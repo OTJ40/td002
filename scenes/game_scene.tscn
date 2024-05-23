@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cvl48ut3k8bwc"]
+[gd_scene load_steps=25 format=3 uid="uid://cvl48ut3k8bwc"]
 
 [ext_resource type="Script" path="res://scripts/game_scene.gd" id="1_7648q"]
 [ext_resource type="PackedScene" uid="uid://c54khy0llqpmk" path="res://scenes/maps/map_1.tscn" id="1_r321l"]
@@ -10,8 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://cyj4vvby200gj" path="res://assets/pause.png" id="5_26djg"]
 [ext_resource type="Texture2D" uid="uid://b2c8wkdb7r2he" path="res://assets/health_circle_hole.png" id="5_sq8kh"]
 [ext_resource type="Texture2D" uid="uid://b2u625l0yp4kg" path="res://assets/right.png" id="6_cyahd"]
+[ext_resource type="LabelSettings" uid="uid://nis6xtmkq4lw" path="res://assets/themes/btn_lbl_settings.tres" id="6_uqv85"]
 [ext_resource type="Texture2D" uid="uid://7fxmyp4s27gt" path="res://assets/fastForward.png" id="7_anmaf"]
-[ext_resource type="Shader" path="res://assets/shaders/blur_01.gdshader" id="8_qdolw"]
 [ext_resource type="Script" path="res://scripts/Towers.gd" id="12_0bhr5"]
 [ext_resource type="Script" path="res://scripts/Arrows.gd" id="12_yxfng"]
 [ext_resource type="PackedScene" uid="uid://cnaqu4mvgxucd" path="res://scenes/towers/arrow.tscn" id="13_1vxww"]
@@ -28,6 +28,13 @@ border_blend = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dqo4c"]
 bg_color = Color(0.482353, 0.317647, 0.0588235, 0.14902)
+border_width_top = 5
+border_width_bottom = 5
+border_color = Color(0.689476, 0.406346, 0.404588, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cu5ix"]
+bg_color = Color(0.482353, 0.317647, 0.0588235, 0.701961)
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
@@ -64,13 +71,33 @@ corner_radius_top_right = 14
 corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 
+[sub_resource type="Shader" id="Shader_gf2hc"]
+code = "shader_type canvas_item;
+
+uniform float blur_amount : hint_range(-2.0, 10.0);
+uniform float mix_amount : hint_range(0.0, 1.0);
+uniform vec4 color_over : source_color;
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
+
+void vertex() {
+	// Called for every vertex the material is visible on.
+}
+
+void fragment() {
+	vec4 blurred = textureLod(SCREEN_TEXTURE, SCREEN_UV, blur_amount);
+	vec4 color = mix(blurred, color_over, mix_amount);
+	COLOR = color;
+}
+
+"
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_codto"]
-shader = ExtResource("8_qdolw")
-shader_parameter/blur_amount = 1.186
+shader = SubResource("Shader_gf2hc")
+shader_parameter/blur_amount = 0.2
 shader_parameter/mix_amount = 0.0
 shader_parameter/color_over = null
 
-[node name="GameScene" type="Node2D"]
+[node name="GameScene" type="Node2D" groups=["game_scene"]]
 script = ExtResource("1_7648q")
 map_node = ExtResource("1_r321l")
 
@@ -87,12 +114,13 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="HeaderRight" type="MarginContainer" parent="UI/HUD"]
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -64.0
-offset_bottom = 64.0
+offset_left = -72.0
+offset_bottom = 72.0
 grow_horizontal = 0
 size_flags_horizontal = 10
 theme_override_constants/margin_top = 8
@@ -110,9 +138,10 @@ tint_over = Color(0, 0, 0, 0.45098)
 tint_progress = Color(0.235294, 0.792157, 0.054902, 0.615686)
 
 [node name="HeaderLeft" type="HBoxContainer" parent="UI/HUD"]
+custom_minimum_size = Vector2(600, 36)
 layout_mode = 1
 offset_right = 600.0
-offset_bottom = 80.0
+offset_bottom = 36.0
 theme_override_constants/separation = 0
 
 [node name="MarginContainer2" type="MarginContainer" parent="UI/HUD/HeaderLeft"]
@@ -120,7 +149,7 @@ layout_mode = 2
 
 [node name="Panel" type="Panel" parent="UI/HUD/HeaderLeft/MarginContainer2"]
 material = SubResource("ShaderMaterial_gb26y")
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ug2bf")
 
@@ -132,7 +161,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 20
-text = "Next Wave: 3 assailants"
+text = "Next Wave: 333 bailiffs"
+label_settings = ExtResource("6_uqv85")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -140,7 +170,7 @@ vertical_alignment = 1
 layout_mode = 2
 
 [node name="WaveProgress" type="TextureProgressBar" parent="UI/HUD/HeaderLeft/MarginContainer3"]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 rounded = true
 nine_patch_stretch = true
@@ -151,7 +181,7 @@ tint_progress = Color(0.482353, 0.317647, 0.0588235, 0.701961)
 script = ExtResource("5_4vanx")
 
 [node name="Panel" type="Panel" parent="UI/HUD/HeaderLeft/MarginContainer3"]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_dqo4c")
 
@@ -163,6 +193,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 20
+label_settings = ExtResource("6_uqv85")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Container" type="PanelContainer" parent="UI/HUD/HeaderLeft"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cu5ix")
+
+[node name="HoverInfoLabel" type="Label" parent="UI/HUD/HeaderLeft/Container"]
+visible = false
+layout_mode = 2
+label_settings = ExtResource("6_uqv85")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -244,7 +286,7 @@ layout_mode = 2
 disabled = true
 texture_normal = ExtResource("7_anmaf")
 
-[node name="FooterCover2" type="Control" parent="UI/HUD/FooterRight" groups=["footer_cover"]]
+[node name="FooterCover2" type="Control" parent="UI/HUD/FooterRight"]
 visible = false
 custom_minimum_size = Vector2(180, 90)
 layout_mode = 2
