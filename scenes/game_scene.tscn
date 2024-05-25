@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cvl48ut3k8bwc"]
+[gd_scene load_steps=33 format=3 uid="uid://cvl48ut3k8bwc"]
 
 [ext_resource type="Script" path="res://scripts/game_scene.gd" id="1_7648q"]
 [ext_resource type="PackedScene" uid="uid://c54khy0llqpmk" path="res://scenes/maps/map_1.tscn" id="1_r321l"]
@@ -11,9 +11,14 @@
 [ext_resource type="Texture2D" uid="uid://b2u625l0yp4kg" path="res://assets/right.png" id="6_cyahd"]
 [ext_resource type="LabelSettings" uid="uid://nis6xtmkq4lw" path="res://assets/themes/btn_lbl_settings.tres" id="6_uqv85"]
 [ext_resource type="Texture2D" uid="uid://7fxmyp4s27gt" path="res://assets/fastForward.png" id="7_anmaf"]
+[ext_resource type="Shader" path="res://assets/shaders/blur_01.gdshader" id="8_fsopr"]
+[ext_resource type="Script" path="res://scripts/FooterRight.gd" id="9_iagv3"]
+[ext_resource type="Script" path="res://scripts/CenterMenu.gd" id="9_sw3vx"]
+[ext_resource type="LabelSettings" uid="uid://dek254oiybf5r" path="res://assets/themes/main_btn_lbl_settings.tres" id="10_d6lx0"]
 [ext_resource type="Script" path="res://scripts/Towers.gd" id="12_0bhr5"]
 [ext_resource type="Script" path="res://scripts/Arrows.gd" id="12_yxfng"]
 [ext_resource type="PackedScene" uid="uid://cnaqu4mvgxucd" path="res://scenes/towers/arrow.tscn" id="13_1vxww"]
+[ext_resource type="Texture2D" uid="uid://c54m55r4sxa0i" path="res://assets/HPbar_frame.png" id="13_d3cd6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s6utu"]
 bg_color = Color(0.482353, 0.317647, 0.0588235, 0.701961)
@@ -56,6 +61,12 @@ border_width_right = 5
 border_width_bottom = 5
 border_color = Color(0.689476, 0.406346, 0.404588, 1)
 border_blend = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_12soy"]
+shader = ExtResource("8_fsopr")
+shader_parameter/blur_amount = 0.5
+shader_parameter/mix_amount = null
+shader_parameter/color_over = null
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwi4u"]
 bg_color = Color(0.560784, 0.337255, 0.294118, 1)
@@ -112,6 +123,14 @@ shader = SubResource("Shader_gf2hc")
 shader_parameter/blur_amount = 0.2
 shader_parameter/mix_amount = 0.0
 shader_parameter/color_over = null
+
+[sub_resource type="LabelSettings" id="LabelSettings_xde2f"]
+font = ExtResource("4_h23ay")
+font_size = 46
+outline_size = 1
+outline_color = Color(0.631373, 0.631373, 0.631373, 0.776471)
+shadow_size = 3
+shadow_color = Color(0.560784, 0.337255, 0.294118, 1)
 
 [node name="GameScene" type="Node2D" groups=["game_scene"]]
 script = ExtResource("1_7648q")
@@ -234,21 +253,112 @@ label_settings = ExtResource("6_uqv85")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="CenterMenu" type="PanelContainer" parent="UI/HUD"]
+visible = false
+material = SubResource("ShaderMaterial_12soy")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -170.0
+offset_top = -249.0
+offset_right = 170.0
+offset_bottom = 249.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_sw3vx")
+
+[node name="sdrj" type="MarginContainer" parent="UI/HUD/CenterMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/HUD/CenterMenu/sdrj"]
+layout_mode = 2
+
+[node name="Settings" type="TextureButton" parent="UI/HUD/CenterMenu/sdrj/VBoxContainer"]
+self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+texture_normal = ExtResource("4_5w5kb")
+texture_hover = ExtResource("13_d3cd6")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="UI/HUD/CenterMenu/sdrj/VBoxContainer/Settings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 75)
+text = "Settings"
+label_settings = ExtResource("10_d6lx0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExitToMain" type="TextureButton" parent="UI/HUD/CenterMenu/sdrj/VBoxContainer"]
+self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+texture_normal = ExtResource("4_5w5kb")
+texture_hover = ExtResource("13_d3cd6")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="UI/HUD/CenterMenu/sdrj/VBoxContainer/ExitToMain"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 75)
+text = "Exit To Main"
+label_settings = ExtResource("10_d6lx0")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ReturnToGame" type="TextureButton" parent="UI/HUD/CenterMenu/sdrj/VBoxContainer"]
+self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+texture_normal = ExtResource("4_5w5kb")
+texture_hover = ExtResource("13_d3cd6")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="UI/HUD/CenterMenu/sdrj/VBoxContainer/ReturnToGame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 75)
+text = "Return To Game"
+label_settings = ExtResource("10_d6lx0")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
 [node name="FooterLeft" type="MarginContainer" parent="UI/HUD"]
-custom_minimum_size = Vector2(106, 106)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -106.0
-offset_right = 106.0
+offset_top = -70.0
+offset_right = 70.0
 grow_vertical = 0
 size_flags_horizontal = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="ArrowTower" type="Button" parent="UI/HUD/FooterLeft" groups=["build_buttons"]]
-custom_minimum_size = Vector2(90, 90)
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_xwi4u")
@@ -263,11 +373,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_vppxf")
-expand_mode = 1
 
-[node name="FooterCover1" type="Control" parent="UI/HUD/FooterLeft" groups=["footer_cover"]]
+[node name="FooterCover1" type="Control" parent="UI/HUD/FooterLeft" groups=["menu_cover", "money_cover"]]
 visible = false
-custom_minimum_size = Vector2(90, 90)
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 
 [node name="Panel" type="Panel" parent="UI/HUD/FooterLeft/FooterCover1"]
@@ -280,7 +389,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="FooterRight" type="MarginContainer" parent="UI/HUD"]
-custom_minimum_size = Vector2(204, 106)
+custom_minimum_size = Vector2(204, 70)
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -292,8 +401,9 @@ offset_top = -106.0
 grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 10
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("9_iagv3")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/FooterRight"]
 layout_mode = 2
@@ -302,20 +412,88 @@ size_flags_vertical = 4
 
 [node name="PausePlay" type="TextureButton" parent="UI/HUD/FooterRight/HBoxContainer"]
 process_mode = 3
+self_modulate = Color(0.560784, 0.337255, 0.294118, 1)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 toggle_mode = true
-texture_normal = ExtResource("6_cyahd")
-texture_pressed = ExtResource("5_26djg")
+texture_normal = ExtResource("4_5w5kb")
+texture_hover = ExtResource("13_d3cd6")
+stretch_mode = 0
+
+[node name="Play" type="TextureRect" parent="UI/HUD/FooterRight/HBoxContainer/PausePlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(50, 50)
+texture = ExtResource("6_cyahd")
+
+[node name="Pause" type="TextureRect" parent="UI/HUD/FooterRight/HBoxContainer/PausePlay"]
+visible = false
+self_modulate = Color(0.964706, 0.862745, 0.321569, 0.898039)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.75, 0.75)
+pivot_offset = Vector2(50, 50)
+texture = ExtResource("5_26djg")
+
+[node name="GoldenPlay" type="TextureRect" parent="UI/HUD/FooterRight/HBoxContainer/PausePlay"]
+visible = false
+self_modulate = Color(0.964706, 0.862745, 0.321569, 0.898039)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.7, 0.7)
+pivot_offset = Vector2(50, 50)
+texture = ExtResource("6_cyahd")
 
 [node name="FastForward" type="TextureButton" parent="UI/HUD/FooterRight/HBoxContainer"]
+self_modulate = Color(0.560784, 0.337255, 0.294118, 1)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 disabled = true
-texture_normal = ExtResource("7_anmaf")
+texture_normal = ExtResource("4_5w5kb")
+texture_hover = ExtResource("13_d3cd6")
+stretch_mode = 0
 
-[node name="FooterCover2" type="Control" parent="UI/HUD/FooterRight"]
-visible = false
-custom_minimum_size = Vector2(180, 90)
+[node name="TextureRect" type="TextureRect" parent="UI/HUD/FooterRight/HBoxContainer/FastForward"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(50, 50)
+texture = ExtResource("7_anmaf")
+
+[node name="Menu" type="TextureButton" parent="UI/HUD/FooterRight/HBoxContainer"]
+self_modulate = Color(0.560784, 0.337255, 0.294118, 1)
+custom_minimum_size = Vector2(120, 64)
 layout_mode = 2
+texture_normal = ExtResource("4_5w5kb")
+texture_hover = ExtResource("13_d3cd6")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="UI/HUD/FooterRight/HBoxContainer/Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(60, 50)
+text = "Menu"
+label_settings = SubResource("LabelSettings_xde2f")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FooterCover2" type="Control" parent="UI/HUD/FooterRight" groups=["menu_cover"]]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 8
 
 [node name="Towers" type="Node2D" parent="."]
 script = ExtResource("12_0bhr5")
@@ -324,5 +502,21 @@ script = ExtResource("12_0bhr5")
 script = ExtResource("12_yxfng")
 arrow_scene = ExtResource("13_1vxww")
 
-[connection signal="pressed" from="UI/HUD/FooterRight/HBoxContainer/PausePlay" to="UI" method="_on_pause_play_pressed"]
-[connection signal="pressed" from="UI/HUD/FooterRight/HBoxContainer/FastForward" to="UI" method="_on_fast_forward_pressed"]
+[connection signal="mouse_entered" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/Settings" to="UI/HUD/CenterMenu" method="_on_settings_mouse_entered"]
+[connection signal="mouse_exited" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/Settings" to="UI/HUD/CenterMenu" method="_on_settings_mouse_exited"]
+[connection signal="mouse_entered" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/ExitToMain" to="UI/HUD/CenterMenu" method="_on_exit_to_main_mouse_entered"]
+[connection signal="mouse_exited" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/ExitToMain" to="UI/HUD/CenterMenu" method="_on_exit_to_main_mouse_exited"]
+[connection signal="mouse_entered" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/ReturnToGame" to="UI/HUD/CenterMenu" method="_on_return_to_game_mouse_entered"]
+[connection signal="mouse_exited" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/ReturnToGame" to="UI/HUD/CenterMenu" method="_on_return_to_game_mouse_exited"]
+[connection signal="pressed" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/ReturnToGame" to="UI/HUD/CenterMenu" method="_on_return_to_game_pressed"]
+[connection signal="button_up" from="UI/HUD/FooterRight/HBoxContainer/PausePlay" to="UI/HUD/FooterRight" method="_on_pause_play_button_up"]
+[connection signal="mouse_entered" from="UI/HUD/FooterRight/HBoxContainer/PausePlay" to="UI/HUD/FooterRight" method="_on_pause_play_mouse_entered"]
+[connection signal="mouse_exited" from="UI/HUD/FooterRight/HBoxContainer/PausePlay" to="UI/HUD/FooterRight" method="_on_pause_play_mouse_exited"]
+[connection signal="pressed" from="UI/HUD/FooterRight/HBoxContainer/PausePlay" to="UI/HUD/FooterRight" method="_on_pause_play_pressed"]
+[connection signal="button_up" from="UI/HUD/FooterRight/HBoxContainer/FastForward" to="UI/HUD/FooterRight" method="_on_fast_forward_button_up"]
+[connection signal="mouse_entered" from="UI/HUD/FooterRight/HBoxContainer/FastForward" to="UI/HUD/FooterRight" method="_on_fast_forward_mouse_entered"]
+[connection signal="mouse_exited" from="UI/HUD/FooterRight/HBoxContainer/FastForward" to="UI/HUD/FooterRight" method="_on_fast_forward_mouse_exited"]
+[connection signal="pressed" from="UI/HUD/FooterRight/HBoxContainer/FastForward" to="UI/HUD/FooterRight" method="_on_fast_forward_pressed"]
+[connection signal="mouse_entered" from="UI/HUD/FooterRight/HBoxContainer/Menu" to="UI/HUD/FooterRight" method="_on_menu_mouse_entered"]
+[connection signal="mouse_exited" from="UI/HUD/FooterRight/HBoxContainer/Menu" to="UI/HUD/FooterRight" method="_on_menu_mouse_exited"]
+[connection signal="pressed" from="UI/HUD/FooterRight/HBoxContainer/Menu" to="UI/HUD/FooterRight" method="_on_menu_pressed"]

@@ -31,20 +31,20 @@ func update_tower_preview(new_position, color):
 		get_node("TowerPreview/DragTower").modulate = Color(color)
 
 
-func _on_pause_play_pressed() -> void:
-	if get_parent().is_build_mode:
-		get_parent().cancel_build_mode()
-	if get_parent().current_wave == 0:
-		G.is_game_slowed = false
-		Engine.set_time_scale(1.0)
-		$HUD/FooterRight/HBoxContainer/FastForward.disabled = false
-		get_parent().start_next_wave()
-	elif Engine.get_time_scale() == 0.0001:
-		G.is_game_slowed = false
-		Engine.set_time_scale(1.0)
-	else:
-		G.is_game_slowed = true
-		Engine.set_time_scale(0.0001)
+#func _on_pause_play_pressed() -> void:
+	#if get_parent().is_build_mode:
+		#get_parent().cancel_build_mode()
+	#if get_parent().current_wave == 0:
+		#G.is_game_slowed = false
+		#Engine.set_time_scale(1.0)
+		#$HUD/FooterRight/HBoxContainer/FastForward.disabled = false
+		#get_parent().start_next_wave()
+	#elif Engine.get_time_scale() == 0.0001:
+		#G.is_game_slowed = false
+		#Engine.set_time_scale(1.0)
+	#else:
+		#G.is_game_slowed = true
+		#Engine.set_time_scale(0.0001)
 		
 	#if get_tree().is_paused():
 		#get_tree().set_pause(false)

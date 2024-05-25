@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://1qcb40tp1p3c"]
+[gd_scene load_steps=8 format=3 uid="uid://1qcb40tp1p3c"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_8fyvs"]
 [ext_resource type="Texture2D" uid="uid://qlxr2j8iltpy" path="res://assets/assailant_01_move1.png" id="2_crucj"]
+[ext_resource type="Script" path="res://scripts/MainButtons.gd" id="3_4i0cd"]
 [ext_resource type="Texture2D" uid="uid://dft7jwgdsumd1" path="res://assets/HPbar.png" id="3_34rv7"]
 [ext_resource type="Texture2D" uid="uid://c54m55r4sxa0i" path="res://assets/HPbar_frame.png" id="4_8yk0t"]
 [ext_resource type="FontFile" uid="uid://carhdkdeua43w" path="res://assets/Redkost Comic.otf" id="4_ycd3e"]
+[ext_resource type="LabelSettings" uid="uid://dek254oiybf5r" path="res://assets/themes/main_btn_lbl_settings.tres" id="7_fjy77"]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_8fyvs")
@@ -36,7 +38,7 @@ size_flags_horizontal = 6
 texture = ExtResource("2_crucj")
 expand_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
+[node name="MainButtons" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
@@ -44,11 +46,12 @@ theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
+script = ExtResource("3_4i0cd")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/MainButtons"]
 layout_mode = 2
 
-[node name="NewGame" type="TextureButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="NewGame" type="TextureButton" parent="MarginContainer/HBoxContainer/MainButtons/VBoxContainer"]
 self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
@@ -56,20 +59,22 @@ texture_normal = ExtResource("3_34rv7")
 texture_hover = ExtResource("4_8yk0t")
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/NewGame"]
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/NewGame"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(150, 75)
 theme_override_fonts/font = ExtResource("4_ycd3e")
 theme_override_font_sizes/font_size = 40
 text = "New Game"
+label_settings = ExtResource("7_fjy77")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LoadGame" type="TextureButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="LoadGame" type="TextureButton" parent="MarginContainer/HBoxContainer/MainButtons/VBoxContainer"]
 self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
@@ -77,20 +82,22 @@ texture_normal = ExtResource("3_34rv7")
 texture_hover = ExtResource("4_8yk0t")
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/LoadGame"]
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/LoadGame"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(150, 75)
 theme_override_fonts/font = ExtResource("4_ycd3e")
 theme_override_font_sizes/font_size = 40
 text = "Load Game"
+label_settings = ExtResource("7_fjy77")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Settings" type="TextureButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Settings" type="TextureButton" parent="MarginContainer/HBoxContainer/MainButtons/VBoxContainer"]
 self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
@@ -98,20 +105,22 @@ texture_normal = ExtResource("3_34rv7")
 texture_hover = ExtResource("4_8yk0t")
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/Settings"]
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/Settings"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(150, 75)
 theme_override_fonts/font = ExtResource("4_ycd3e")
 theme_override_font_sizes/font_size = 40
 text = "Settings"
+label_settings = ExtResource("7_fjy77")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Exit" type="TextureButton" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+[node name="Exit" type="TextureButton" parent="MarginContainer/HBoxContainer/MainButtons/VBoxContainer"]
 self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
@@ -119,20 +128,30 @@ texture_normal = ExtResource("3_34rv7")
 texture_hover = ExtResource("4_8yk0t")
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/Exit"]
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/Exit"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(150, 75)
 theme_override_fonts/font = ExtResource("4_ycd3e")
 theme_override_font_sizes/font_size = 40
 text = "Exit"
+label_settings = ExtResource("7_fjy77")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/NewGame" to="." method="_on_new_game_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/LoadGame" to="." method="_on_load_game_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/NewGame" to="MarginContainer/HBoxContainer/MainButtons" method="_on_new_game_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/NewGame" to="MarginContainer/HBoxContainer/MainButtons" method="_on_new_game_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/LoadGame" to="MarginContainer/HBoxContainer/MainButtons" method="_on_load_game_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/LoadGame" to="MarginContainer/HBoxContainer/MainButtons" method="_on_load_game_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/LoadGame" to="." method="_on_load_game_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/Settings" to="MarginContainer/HBoxContainer/MainButtons" method="_on_settings_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/Settings" to="MarginContainer/HBoxContainer/MainButtons" method="_on_settings_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/Exit" to="MarginContainer/HBoxContainer/MainButtons" method="_on_exit_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/Exit" to="MarginContainer/HBoxContainer/MainButtons" method="_on_exit_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

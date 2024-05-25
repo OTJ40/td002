@@ -3,7 +3,7 @@ extends Node2D
 signal game_finished
 
 const CANCEL_TIME_COOLDOWN = 0.4
-# todo 1 - moneypool
+# todo 1 - , 2 - 
 @export var TIME_BETWEEN_WAVES = 2.5
 @export var TOWER_COST = 50.0
 @export var map_node: PackedScene
@@ -51,6 +51,8 @@ func check_moneypool():
 		money_factor += 0.1
 
 func _physics_process(delta: float) -> void:
+	#if money < TOWER_COST:
+		
 	check_moneypool()
 	t += 1
 	if t == 6:
@@ -58,7 +60,7 @@ func _physics_process(delta: float) -> void:
 		t = 0
 	if not G.is_game_slowed:
 		money += delta * money_factor
-	prints(money,moneypool_level,money_factor,t)
+	#prints(money,moneypool_level,money_factor,t)
 
 func _process(_delta: float) -> void:
 	
@@ -71,6 +73,7 @@ func _process(_delta: float) -> void:
 		stop_show_menus_in_build_mode()
 	
 	tower_menu_mode()
+	check_prices()
 
 func _unhandled_input(event: InputEvent) -> void:
 	#print(event)
@@ -209,8 +212,15 @@ func _on_info_hover(_text):
 	#tween.tween_property(l,"size",Vector2(l.size.x,36),0.3)
 		
 
+func check_prices():
+	for i in get_tree().get_nodes_in_group("money_cover"):
+		if money < TOWER_COST:
+			i.visible = true
+		else:
+			i.visible = false
+
 func tower_menu_mode():
-	for i in get_tree().get_nodes_in_group("footer_cover"):
+	for i in get_tree().get_nodes_in_group("menu_cover"):
 		i.visible = is_tower_menu_mode
 
 func start_show_menus():

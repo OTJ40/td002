@@ -19,7 +19,7 @@ func _process(_delta: float) -> void:
 
 func menu_tweener(word: String):
 	var bg = $MarginContainer/BG
-	var btn_container = $MarginContainer/HBoxContainer/MarginContainer/VBoxContainer
+	var btn_container = $MarginContainer/HBoxContainer/MainButtons/VBoxContainer
 	var tween = create_tween()
 	match word:
 		"start":
