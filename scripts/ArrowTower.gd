@@ -195,19 +195,19 @@ func _on_sell_pressed():
 
 func _on_damage_pressed():
 	if levels_to_upgrade > 0:
-		$Data.damage *= 1.1
+		$Data.damage *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["damage"]
 		levels_to_upgrade -= 1
 	_on_cancel_pressed()
 
 func _on_rate_pressed():
 	if levels_to_upgrade > 0:
-		$Data.rate *= 0.9
+		$Data.rate *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["rate"]
 		levels_to_upgrade -= 1
 	_on_cancel_pressed()
 
 func _on_range_pressed():
 	if levels_to_upgrade > 0:
-		$Data.t_range *= 1.1
+		$Data.t_range *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["range"]
 		get_node("Range/CollisionShape2D").shape.radius = $Data.t_range
 		#$Range/CollisionShape2D.shape.radius = $Data.t_range
 		levels_to_upgrade -= 1
@@ -215,7 +215,7 @@ func _on_range_pressed():
 
 func _on_speed_pressed():
 	if levels_to_upgrade > 0:
-		$Data.speed *= 1.1
+		$Data.speed *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["speed"]
 		levels_to_upgrade -= 1
 	_on_cancel_pressed()
 

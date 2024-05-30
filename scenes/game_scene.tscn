@@ -64,9 +64,9 @@ border_blend = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_12soy"]
 shader = ExtResource("8_fsopr")
-shader_parameter/blur_amount = 0.5
-shader_parameter/mix_amount = null
-shader_parameter/color_over = null
+shader_parameter/blur_amount = 1.0
+shader_parameter/mix_amount = 0.4
+shader_parameter/color_over = Color(0.364706, 0.180392, 0.0470588, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwi4u"]
 bg_color = Color(0.560784, 0.337255, 0.294118, 1)
@@ -120,13 +120,13 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_codto"]
 shader = SubResource("Shader_gf2hc")
-shader_parameter/blur_amount = 0.2
+shader_parameter/blur_amount = 0.4
 shader_parameter/mix_amount = 0.0
 shader_parameter/color_over = null
 
 [sub_resource type="LabelSettings" id="LabelSettings_xde2f"]
 font = ExtResource("4_h23ay")
-font_size = 46
+font_size = 42
 outline_size = 1
 outline_color = Color(0.631373, 0.631373, 0.631373, 0.776471)
 shadow_size = 3
@@ -150,13 +150,10 @@ mouse_filter = 2
 
 [node name="HeaderRight" type="HBoxContainer" parent="UI/HUD"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -84.0
-offset_top = 10.0
-offset_bottom = 60.0
+layout_mode = 2
+offset_left = 1518.0
+offset_right = 1600.0
+offset_bottom = 50.0
 grow_horizontal = 0
 size_flags_horizontal = 10
 
@@ -165,7 +162,11 @@ layout_mode = 2
 text = "10/10"
 label_settings = ExtResource("6_uqv85")
 
-[node name="ProgressBar" type="ProgressBar" parent="UI/HUD/HeaderRight"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/HUD/HeaderRight"]
+layout_mode = 2
+theme_override_constants/margin_top = 12
+
+[node name="ProgressBar" type="ProgressBar" parent="UI/HUD/HeaderRight/MarginContainer"]
 custom_minimum_size = Vector2(30, 50)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.964706, 0.862745, 0.321569, 0.898039)
@@ -177,6 +178,11 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_1nbxl")
 value = 36.0
 fill_mode = 3
 show_percentage = false
+
+[node name="FactorLabel" type="Label" parent="UI/HUD/HeaderRight/MarginContainer"]
+layout_mode = 2
+text = "1.0"
+horizontal_alignment = 1
 
 [node name="Control" type="Control" parent="UI/HUD/HeaderRight"]
 custom_minimum_size = Vector2(8, 0)
@@ -249,38 +255,33 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_cu5ix")
 [node name="HoverInfoLabel" type="Label" parent="UI/HUD/HeaderLeft/Container"]
 visible = false
 layout_mode = 2
-label_settings = ExtResource("6_uqv85")
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="CenterMenu" type="PanelContainer" parent="UI/HUD"]
 visible = false
+top_level = true
 material = SubResource("ShaderMaterial_12soy")
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -170.0
-offset_top = -249.0
-offset_right = 170.0
-offset_bottom = 249.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("9_sw3vx")
 
-[node name="sdrj" type="MarginContainer" parent="UI/HUD/CenterMenu"]
+[node name="Container" type="MarginContainer" parent="UI/HUD/CenterMenu"]
+custom_minimum_size = Vector2(340, 500)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 40
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/HUD/CenterMenu/sdrj"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/HUD/CenterMenu/Container"]
 layout_mode = 2
 
-[node name="Settings" type="TextureButton" parent="UI/HUD/CenterMenu/sdrj/VBoxContainer"]
+[node name="Settings" type="TextureButton" parent="UI/HUD/CenterMenu/Container/VBoxContainer"]
 self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
@@ -288,7 +289,7 @@ texture_normal = ExtResource("4_5w5kb")
 texture_hover = ExtResource("13_d3cd6")
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="UI/HUD/CenterMenu/sdrj/VBoxContainer/Settings"]
+[node name="Label" type="Label" parent="UI/HUD/CenterMenu/Container/VBoxContainer/Settings"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -301,7 +302,7 @@ label_settings = ExtResource("10_d6lx0")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ExitToMain" type="TextureButton" parent="UI/HUD/CenterMenu/sdrj/VBoxContainer"]
+[node name="ReturnToGame" type="TextureButton" parent="UI/HUD/CenterMenu/Container/VBoxContainer"]
 self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
 custom_minimum_size = Vector2(300, 150)
 layout_mode = 2
@@ -309,29 +310,7 @@ texture_normal = ExtResource("4_5w5kb")
 texture_hover = ExtResource("13_d3cd6")
 stretch_mode = 0
 
-[node name="Label" type="Label" parent="UI/HUD/CenterMenu/sdrj/VBoxContainer/ExitToMain"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(150, 75)
-text = "Exit To Main"
-label_settings = ExtResource("10_d6lx0")
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="ReturnToGame" type="TextureButton" parent="UI/HUD/CenterMenu/sdrj/VBoxContainer"]
-self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
-custom_minimum_size = Vector2(300, 150)
-layout_mode = 2
-texture_normal = ExtResource("4_5w5kb")
-texture_hover = ExtResource("13_d3cd6")
-stretch_mode = 0
-
-[node name="Label" type="Label" parent="UI/HUD/CenterMenu/sdrj/VBoxContainer/ReturnToGame"]
+[node name="Label" type="Label" parent="UI/HUD/CenterMenu/Container/VBoxContainer/ReturnToGame"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -340,6 +319,28 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(150, 75)
 text = "Return To Game"
+label_settings = ExtResource("10_d6lx0")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ExitToMain" type="TextureButton" parent="UI/HUD/CenterMenu/Container/VBoxContainer"]
+self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+texture_normal = ExtResource("4_5w5kb")
+texture_hover = ExtResource("13_d3cd6")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="UI/HUD/CenterMenu/Container/VBoxContainer/ExitToMain"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 75)
+text = "Exit To Main"
 label_settings = ExtResource("10_d6lx0")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -357,7 +358,10 @@ size_flags_horizontal = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ArrowTower" type="Button" parent="UI/HUD/FooterLeft" groups=["build_buttons"]]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/FooterLeft"]
+layout_mode = 2
+
+[node name="ArrowTower" type="Button" parent="UI/HUD/FooterLeft/HBoxContainer" groups=["build_buttons"]]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 focus_mode = 0
@@ -365,7 +369,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_xwi4u")
 theme_override_styles/hover = SubResource("StyleBoxFlat_l8vit")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_muyi4")
 
-[node name="Icon" type="TextureRect" parent="UI/HUD/FooterLeft/ArrowTower"]
+[node name="Icon" type="TextureRect" parent="UI/HUD/FooterLeft/HBoxContainer/ArrowTower"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -374,8 +378,11 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_vppxf")
 
+[node name="PriceLabel" type="Label" parent="UI/HUD/FooterLeft/HBoxContainer"]
+layout_mode = 2
+text = "50 coins"
+
 [node name="FooterCover1" type="Control" parent="UI/HUD/FooterLeft" groups=["menu_cover", "money_cover"]]
-visible = false
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 
@@ -396,8 +403,8 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -204.0
-offset_top = -106.0
+offset_left = -278.0
+offset_top = -80.0
 grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 10
@@ -413,7 +420,7 @@ size_flags_vertical = 4
 [node name="PausePlay" type="TextureButton" parent="UI/HUD/FooterRight/HBoxContainer"]
 process_mode = 3
 self_modulate = Color(0.560784, 0.337255, 0.294118, 1)
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(70, 70)
 layout_mode = 2
 toggle_mode = true
 texture_normal = ExtResource("4_5w5kb")
@@ -427,32 +434,41 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(50, 50)
+pivot_offset = Vector2(35, 35)
 texture = ExtResource("6_cyahd")
+expand_mode = 1
 
 [node name="Pause" type="TextureRect" parent="UI/HUD/FooterRight/HBoxContainer/PausePlay"]
 visible = false
 self_modulate = Color(0.964706, 0.862745, 0.321569, 0.898039)
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(0.75, 0.75)
-pivot_offset = Vector2(50, 50)
+pivot_offset = Vector2(35, 35)
 texture = ExtResource("5_26djg")
+expand_mode = 1
 
 [node name="GoldenPlay" type="TextureRect" parent="UI/HUD/FooterRight/HBoxContainer/PausePlay"]
 visible = false
 self_modulate = Color(0.964706, 0.862745, 0.321569, 0.898039)
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(0.7, 0.7)
-pivot_offset = Vector2(50, 50)
+pivot_offset = Vector2(35, 35)
 texture = ExtResource("6_cyahd")
+expand_mode = 1
 
 [node name="FastForward" type="TextureButton" parent="UI/HUD/FooterRight/HBoxContainer"]
 self_modulate = Color(0.560784, 0.337255, 0.294118, 1)
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(70, 70)
 layout_mode = 2
 disabled = true
 texture_normal = ExtResource("4_5w5kb")
@@ -466,8 +482,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(50, 50)
+pivot_offset = Vector2(35, 35)
 texture = ExtResource("7_anmaf")
+expand_mode = 1
 
 [node name="Menu" type="TextureButton" parent="UI/HUD/FooterRight/HBoxContainer"]
 self_modulate = Color(0.560784, 0.337255, 0.294118, 1)
@@ -484,14 +501,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(60, 50)
+pivot_offset = Vector2(60, 35)
 text = "Menu"
 label_settings = SubResource("LabelSettings_xde2f")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="FooterCover2" type="Control" parent="UI/HUD/FooterRight" groups=["menu_cover"]]
-custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 
@@ -502,13 +518,14 @@ script = ExtResource("12_0bhr5")
 script = ExtResource("12_yxfng")
 arrow_scene = ExtResource("13_1vxww")
 
-[connection signal="mouse_entered" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/Settings" to="UI/HUD/CenterMenu" method="_on_settings_mouse_entered"]
-[connection signal="mouse_exited" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/Settings" to="UI/HUD/CenterMenu" method="_on_settings_mouse_exited"]
-[connection signal="mouse_entered" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/ExitToMain" to="UI/HUD/CenterMenu" method="_on_exit_to_main_mouse_entered"]
-[connection signal="mouse_exited" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/ExitToMain" to="UI/HUD/CenterMenu" method="_on_exit_to_main_mouse_exited"]
-[connection signal="mouse_entered" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/ReturnToGame" to="UI/HUD/CenterMenu" method="_on_return_to_game_mouse_entered"]
-[connection signal="mouse_exited" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/ReturnToGame" to="UI/HUD/CenterMenu" method="_on_return_to_game_mouse_exited"]
-[connection signal="pressed" from="UI/HUD/CenterMenu/sdrj/VBoxContainer/ReturnToGame" to="UI/HUD/CenterMenu" method="_on_return_to_game_pressed"]
+[connection signal="mouse_entered" from="UI/HUD/CenterMenu/Container/VBoxContainer/Settings" to="UI/HUD/CenterMenu" method="_on_settings_mouse_entered"]
+[connection signal="mouse_exited" from="UI/HUD/CenterMenu/Container/VBoxContainer/Settings" to="UI/HUD/CenterMenu" method="_on_settings_mouse_exited"]
+[connection signal="mouse_entered" from="UI/HUD/CenterMenu/Container/VBoxContainer/ReturnToGame" to="UI/HUD/CenterMenu" method="_on_return_to_game_mouse_entered"]
+[connection signal="mouse_exited" from="UI/HUD/CenterMenu/Container/VBoxContainer/ReturnToGame" to="UI/HUD/CenterMenu" method="_on_return_to_game_mouse_exited"]
+[connection signal="pressed" from="UI/HUD/CenterMenu/Container/VBoxContainer/ReturnToGame" to="UI/HUD/CenterMenu" method="_on_return_to_game_pressed"]
+[connection signal="mouse_entered" from="UI/HUD/CenterMenu/Container/VBoxContainer/ExitToMain" to="UI/HUD/CenterMenu" method="_on_exit_to_main_mouse_entered"]
+[connection signal="mouse_exited" from="UI/HUD/CenterMenu/Container/VBoxContainer/ExitToMain" to="UI/HUD/CenterMenu" method="_on_exit_to_main_mouse_exited"]
+[connection signal="pressed" from="UI/HUD/CenterMenu/Container/VBoxContainer/ExitToMain" to="UI/HUD/CenterMenu" method="_on_exit_to_main_pressed"]
 [connection signal="button_up" from="UI/HUD/FooterRight/HBoxContainer/PausePlay" to="UI/HUD/FooterRight" method="_on_pause_play_button_up"]
 [connection signal="mouse_entered" from="UI/HUD/FooterRight/HBoxContainer/PausePlay" to="UI/HUD/FooterRight" method="_on_pause_play_mouse_entered"]
 [connection signal="mouse_exited" from="UI/HUD/FooterRight/HBoxContainer/PausePlay" to="UI/HUD/FooterRight" method="_on_pause_play_mouse_exited"]

@@ -5,6 +5,7 @@ var t = 0
 var flip_bailiff = true
 
 func _ready() -> void:
+	G.game_speed(1.0)
 	$MarginContainer.mouse_filter = Control.MOUSE_FILTER_STOP
 	#menu_tweener("start") # todo - closed for editing
 	$MarginContainer.mouse_filter = Control.MOUSE_FILTER_PASS

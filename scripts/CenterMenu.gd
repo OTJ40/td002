@@ -1,41 +1,46 @@
 extends PanelContainer
 
+signal to_main_menu
 
-# Called when the node enters the scene tree for the first time.
+var game_scene
+
 func _ready() -> void:
-	pass # Replace with function body.
-
-
-
-
+	game_scene = get_tree().get_nodes_in_group("game_scene")[0]
+	to_main_menu.connect(Callable(game_scene.get_parent(),"_load_main_menu"))
 
 func _on_settings_mouse_entered() -> void:
-	G.button_tween_entered($sdrj/VBoxContainer/Settings/Label,0.85)
-
+	G.button_tween_entered($Container/VBoxContainer/Settings/Label,0.85)
 
 func _on_settings_mouse_exited() -> void:
-	G.button_tween_exited($sdrj/VBoxContainer/Settings/Label)
-
+	G.button_tween_exited($Container/VBoxContainer/Settings/Label)
 
 func _on_exit_to_main_mouse_entered() -> void:
-	G.button_tween_entered($sdrj/VBoxContainer/ExitToMain/Label,0.85)
-
+	G.button_tween_entered($Container/VBoxContainer/ExitToMain/Label,0.85)
 
 func _on_exit_to_main_mouse_exited() -> void:
-	G.button_tween_exited($sdrj/VBoxContainer/ExitToMain/Label)
-
+	G.button_tween_exited($Container/VBoxContainer/ExitToMain/Label)
 
 func _on_return_to_game_mouse_entered() -> void:
-	G.button_tween_entered($sdrj/VBoxContainer/ReturnToGame/Label,0.85)
-
+	G.button_tween_entered($Container/VBoxContainer/ReturnToGame/Label,0.85)
 
 func _on_return_to_game_mouse_exited() -> void:
-	G.button_tween_exited($sdrj/VBoxContainer/ReturnToGame/Label)
-
+	G.button_tween_exited($Container/VBoxContainer/ReturnToGame/Label)
 
 func _on_return_to_game_pressed() -> void:
-	# todo fix label color
 	await G.timer(G.get_time_cooldown(0.3))
 	self.visible = false
-	G.is_game_slowed = false
-	G.game_speed(1.0)
+	if game_scene.current_wave > 0:
+		$"../FooterRight/HBoxContainer/PausePlay".set_pressed(true)
+		$"../FooterRight"._is_pause_is_play_toggle(true,false)
+		G.is_game_slowed = false
+		G.game_speed(1.0)
+
+func set_shader_value(value: float):
+	material.set_shader_parameter("mix_amount",value)
+
+func _on_exit_to_main_pressed() -> void:
+	var tween = create_tween().bind_node(self)
+	tween.tween_method(set_shader_value, 0.0, 1.0, G.get_time_cooldown(1.0))
+	await G.timer(G.get_time_cooldown(1.2))
+	to_main_menu.emit()
+	game_scene.queue_free()

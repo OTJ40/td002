@@ -8,11 +8,18 @@ var tower_data = {
 		"rate": 1,
 		"range": 125,
 		"speed": 600,
+		"first_cost": 50,
+		"upgrade_factor":{
+			"damage": 1.05,
+			"rate": 0.95,
+			"range": 1.05,
+			"speed": 1.05,
+		}
 	},
 }
 
 var levels_xp = []
-var moneypools = [100.0,120.0,160.0,210.0,270.0,340.0,420.0]
+var moneypools = [120.0,160.0,210.0,280.0,370.0,490.0,650.0,870.0] # /0.75
 
 func set_levels_xp(base_xp,exponent):
 	var level = 1
@@ -22,9 +29,6 @@ func set_levels_xp(base_xp,exponent):
 		level += 1
 		levels_xp.append(Vector2i(level,xp))
 	print(levels_xp)
-
-#func moneypools():
-	#var a = []
 
 func get_wave_data(wave_num):
 	randomize()

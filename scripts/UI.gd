@@ -66,9 +66,9 @@ func update_health(health,max_health):
 	#print(health)
 	if health < 0.0:
 		health = 0.0
-	$HUD/HeaderRight/MoneyLabel.text = str(round(health))+"/"+str(max_health)
-	$HUD/HeaderRight/ProgressBar.max_value = max_health
-	$HUD/HeaderRight/ProgressBar.value = health
+	$HUD/HeaderRight/MoneyLabel.text = str(round(health))+" / "+str(max_health)
+	$HUD/HeaderRight/MarginContainer/ProgressBar.max_value = max_health
+	$HUD/HeaderRight/MarginContainer/ProgressBar.value = health
 
 func _on_fast_forward_pressed() -> void:
 	G.is_game_slowed = false

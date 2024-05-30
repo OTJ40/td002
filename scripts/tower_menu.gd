@@ -38,7 +38,8 @@ func _on_sell_mouse_exited() -> void:
 	info_hover.emit("")
 
 func _on_info_mouse_entered() -> void:
-	info_hover.emit("Info tower")
+	var text = "Info [b]tower[/b]"
+	info_hover.emit(text)
 
 func _on_info_mouse_exited() -> void:
 	info_hover.emit("")
