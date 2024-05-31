@@ -26,20 +26,20 @@ func _on_info_pressed() -> void:
 	info_pressed.emit()
 
 func _on_up_mouse_entered() -> void:
-	info_hover.emit("Upgrade tower")
+	info_hover.emit(["Upgrade tower"])
 
 func _on_up_mouse_exited() -> void:
-	info_hover.emit("")
+	info_hover.emit([""])
 
 func _on_sell_mouse_entered() -> void:
-	info_hover.emit("Sell tower")
+	info_hover.emit(["Sell tower"])
 
 func _on_sell_mouse_exited() -> void:
-	info_hover.emit("")
+	info_hover.emit([""])
 
 func _on_info_mouse_entered() -> void:
-	var text = "Info [b]tower[/b]"
+	var text = ["Info tower"]
 	info_hover.emit(text)
 
 func _on_info_mouse_exited() -> void:
-	info_hover.emit("")
+	info_hover.emit([""])

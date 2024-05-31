@@ -44,29 +44,33 @@ func _on_up_speed_pressed() -> void:
 	#_cancel_pressed.emit()
 
 func _on_up_damage_mouse_entered() -> void:
-	var text = "Upgrade damage to " + str(tower.get_node("Data").damage*damage_factor) + " from " + str(tower.get_node("Data").damage)
+	#var text = "Upgrade damage to " + str(tower.get_node("Data").damage*damage_factor) + " from " + str(tower.get_node("Data").damage)
+	var text = ["Upgrade damage to ", str(tower.get_node("Data").damage*damage_factor), " from ", str(tower.get_node("Data").damage)]
 	info_hover.emit(text)
 
 func _on_up_damage_mouse_exited() -> void:
-	info_hover.emit("")
+	info_hover.emit([""])
 
 func _on_up_range_mouse_entered() -> void:
-	var text = "Upgrade range to " + str(tower.get_node("Data").t_range*range_factor) + " from " + str(tower.get_node("Data").t_range)
+	#var text = "Upgrade range to " + str(tower.get_node("Data").t_range*range_factor) + " from " + str(tower.get_node("Data").t_range)
+	var text = ["Upgrade range to ", str(tower.get_node("Data").t_range*range_factor), " from ", str(tower.get_node("Data").t_range)]
 	info_hover.emit(text)
 
 func _on_up_range_mouse_exited() -> void:
-	info_hover.emit("")
+	info_hover.emit([""])
 
 func _on_up_rate_mouse_entered() -> void:
-	var text = "Upgrade rate to " + str(tower.get_node("Data").rate*rate_factor) + " from " + str(tower.get_node("Data").rate)
+	#var text = "Upgrade rate to " + str(tower.get_node("Data").rate*rate_factor) + " from " + str(tower.get_node("Data").rate)
+	var text = ["Upgrade rate to ", str(tower.get_node("Data").rate*rate_factor), " from ", str(tower.get_node("Data").rate)]
 	info_hover.emit(text)
 
 func _on_up_rate_mouse_exited() -> void:
-	info_hover.emit("")
+	info_hover.emit([""])
 
 func _on_up_speed_mouse_entered() -> void:
-	var text = "Upgrade speed to " + str(tower.get_node("Data").speed*speed_factor) + " from " + str(tower.get_node("Data").speed)
+	#var text = "Upgrade speed to " + str(tower.get_node("Data").speed*speed_factor) + " from " + str(tower.get_node("Data").speed)
+	var text = ["Upgrade speed to ", str(tower.get_node("Data").speed*speed_factor), " from ", str(tower.get_node("Data").speed)]
 	info_hover.emit(text)
 
 func _on_up_speed_mouse_exited() -> void:
-	info_hover.emit("")
+	info_hover.emit([""])

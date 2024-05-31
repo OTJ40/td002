@@ -252,8 +252,10 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_cu5ix")
 
-[node name="HoverInfoLabel" type="Label" parent="UI/HUD/HeaderLeft/Container"]
-visible = false
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/HeaderLeft/Container"]
+layout_mode = 2
+
+[node name="HoverInfoLabel" type="Label" parent="UI/HUD/HeaderLeft/Container/HBoxContainer"]
 layout_mode = 2
 
 [node name="CenterMenu" type="PanelContainer" parent="UI/HUD"]

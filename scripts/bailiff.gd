@@ -58,8 +58,8 @@ func enemy():
 	pass
 
 func _on_hurtbox_mouse_entered() -> void:
-	info_hover.emit(self.name+" - HP: "+str(bailiff_resource.hp)+"/"+str(hp_max)\
-	+" SPEED: "+str(bailiff_resource.speed))
+	var text = [self.name+" - HP: "+str(bailiff_resource.hp)+"/"+str(hp_max)+" SPEED: "+str(bailiff_resource.speed)]
+	info_hover.emit(text)
 
 func _on_hurtbox_mouse_exited() -> void:
-	info_hover.emit("")
+	info_hover.emit([""])
