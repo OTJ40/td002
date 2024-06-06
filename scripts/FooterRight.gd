@@ -10,7 +10,7 @@ func _ready() -> void:
 
 func _on_menu_mouse_entered() -> void:
 	G.button_tween_entered($HBoxContainer/Menu/Label,0.85)
-	info_hover.emit(["Menu Button"])
+	info_hover.emit(["   Menu Button   "])
 
 func _on_menu_mouse_exited() -> void:
 	G.button_tween_exited($HBoxContainer/Menu/Label)
@@ -19,9 +19,9 @@ func _on_menu_mouse_exited() -> void:
 func _on_pause_play_mouse_entered() -> void:
 	if G.is_game_slowed:
 		G.button_tween_entered($HBoxContainer/PausePlay/Play,0.7)
-		info_hover.emit(["Press To Play"])
+		info_hover.emit(["   Press To Play   "])
 	else :
-		info_hover.emit(["Press To Pause"])
+		info_hover.emit(["   Press To Pause   "])
 
 func _on_pause_play_mouse_exited() -> void:
 	$HBoxContainer/PausePlay/GoldenPlay.visible = false
@@ -58,10 +58,10 @@ func _on_pause_play_button_up() -> void:
 	if G.is_game_slowed:
 		$HBoxContainer/PausePlay/GoldenPlay.visible = true
 		info_hover.emit([""])
-		info_hover.emit(["Press To Play"])
+		info_hover.emit(["   Press To Play   "])
 	else:
 		info_hover.emit([""])
-		info_hover.emit(["Press To Pause"])
+		info_hover.emit(["   Press To Pause   "])
 
 func _on_fast_forward_pressed() -> void:
 	G.is_game_slowed = false
@@ -78,9 +78,9 @@ func _on_fast_forward_mouse_entered() -> void:
 	if not $HBoxContainer/FastForward.disabled:
 		G.button_tween_entered($HBoxContainer/FastForward/TextureRect,0.7)
 		if Engine.get_time_scale() == 2.0:
-			info_hover.emit(["Press To NormalSpeed"])
+			info_hover.emit(["   Press To NormalSpeed   "])
 		else:
-			info_hover.emit(["Press To FastForward"])
+			info_hover.emit(["   Press To FastForward   "])
 
 func _on_fast_forward_mouse_exited() -> void:
 	G.button_tween_exited($HBoxContainer/FastForward/TextureRect)
@@ -89,10 +89,10 @@ func _on_fast_forward_mouse_exited() -> void:
 func _on_fast_forward_button_up() -> void:
 	if Engine.get_time_scale() == 2.0:
 		info_hover.emit([""])
-		info_hover.emit(["Press To NormalSpeed"])
+		info_hover.emit(["   Press To NormalSpeed   "])
 	else:
 		info_hover.emit([""])
-		info_hover.emit(["Press To FastForward"])
+		info_hover.emit(["   Press To FastForward   "])
 
 func _is_pause_is_play_toggle(is_pause: bool,is_play: bool):
 	$HBoxContainer/PausePlay/Pause.visible = is_pause

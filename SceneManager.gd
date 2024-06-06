@@ -8,7 +8,9 @@ extends Node
 @export var exponent: float = 1.4 # 1.45
 
 func _ready() -> void:
+	#print(snappedf(1/3.0,0.0001))
 	GameData.set_levels_xp(base_xp,exponent)
+	#GameData.set_levels_xp(base_xp,exponent-0.03)
 	_load_main_menu()
 
 func _load_main_menu():

@@ -54,7 +54,7 @@ layout_mode = 2
 texture_normal = ExtResource("1_orhfd")
 texture_hover = ExtResource("2_r5ok6")
 
-[node name="UpRange" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="UpReach" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 texture_normal = ExtResource("3_dn8pj")
 texture_hover = ExtResource("4_mbclc")
@@ -75,9 +75,9 @@ texture_hover = ExtResource("10_882vh")
 [connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer/UpDamage" to="." method="_on_up_damage_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/VBoxContainer/HBoxContainer/UpDamage" to="." method="_on_up_damage_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/UpDamage" to="." method="_on_up_damage_pressed"]
-[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer/UpRange" to="." method="_on_up_range_mouse_entered"]
-[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/HBoxContainer/UpRange" to="." method="_on_up_range_mouse_exited"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/UpRange" to="." method="_on_up_range_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer/UpReach" to="." method="_on_up_reach_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/VBoxContainer/HBoxContainer/UpReach" to="." method="_on_up_reach_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/UpReach" to="." method="_on_up_reach_pressed"]
 [connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer2/UpRate" to="." method="_on_up_rate_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/VBoxContainer/HBoxContainer2/UpRate" to="." method="_on_up_rate_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/UpRate" to="." method="_on_up_rate_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://1qcb40tp1p3c"]
+[gd_scene load_steps=11 format=3 uid="uid://1qcb40tp1p3c"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_8fyvs"]
 [ext_resource type="Texture2D" uid="uid://qlxr2j8iltpy" path="res://assets/assailant_01_move1.png" id="2_crucj"]
@@ -7,6 +7,14 @@
 [ext_resource type="Texture2D" uid="uid://c54m55r4sxa0i" path="res://assets/HPbar_frame.png" id="4_8yk0t"]
 [ext_resource type="FontFile" uid="uid://carhdkdeua43w" path="res://assets/Redkost Comic.otf" id="4_ycd3e"]
 [ext_resource type="LabelSettings" uid="uid://dek254oiybf5r" path="res://assets/themes/main_btn_lbl_settings.tres" id="7_fjy77"]
+[ext_resource type="Shader" path="res://assets/shaders/blur_01.gdshader" id="8_6xg2y"]
+[ext_resource type="Script" path="res://scripts/DiffLevels.gd" id="9_g3isd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2tdk5"]
+shader = ExtResource("8_6xg2y")
+shader_parameter/blur_amount = 1.0
+shader_parameter/mix_amount = 0.0
+shader_parameter/color_over = null
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_8fyvs")
@@ -144,6 +152,89 @@ label_settings = ExtResource("7_fjy77")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="DiffLevels" type="PanelContainer" parent="MarginContainer"]
+material = SubResource("ShaderMaterial_2tdk5")
+layout_mode = 2
+script = ExtResource("9_g3isd")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/DiffLevels"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/DiffLevels/MarginContainer"]
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 2
+
+[node name="Easy" type="TextureButton" parent="MarginContainer/DiffLevels/MarginContainer/VBoxContainer"]
+self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+texture_normal = ExtResource("3_34rv7")
+texture_hover = ExtResource("4_8yk0t")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="MarginContainer/DiffLevels/MarginContainer/VBoxContainer/Easy"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 75)
+theme_override_fonts/font = ExtResource("4_ycd3e")
+theme_override_font_sizes/font_size = 40
+text = "Easy"
+label_settings = ExtResource("7_fjy77")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Medium" type="TextureButton" parent="MarginContainer/DiffLevels/MarginContainer/VBoxContainer"]
+self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+texture_normal = ExtResource("3_34rv7")
+texture_hover = ExtResource("4_8yk0t")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="MarginContainer/DiffLevels/MarginContainer/VBoxContainer/Medium"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 75)
+theme_override_fonts/font = ExtResource("4_ycd3e")
+theme_override_font_sizes/font_size = 40
+text = "Medium"
+label_settings = ExtResource("7_fjy77")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Hard" type="TextureButton" parent="MarginContainer/DiffLevels/MarginContainer/VBoxContainer"]
+self_modulate = Color(0.364706, 0.180392, 0.0470588, 1)
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+texture_normal = ExtResource("3_34rv7")
+texture_hover = ExtResource("4_8yk0t")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="MarginContainer/DiffLevels/MarginContainer/VBoxContainer/Hard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 75)
+theme_override_fonts/font = ExtResource("4_ycd3e")
+theme_override_font_sizes/font_size = 40
+text = "Hard"
+label_settings = ExtResource("7_fjy77")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="mouse_entered" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/NewGame" to="MarginContainer/HBoxContainer/MainButtons" method="_on_new_game_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/NewGame" to="MarginContainer/HBoxContainer/MainButtons" method="_on_new_game_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/NewGame" to="." method="_on_new_game_pressed"]
@@ -156,3 +247,12 @@ vertical_alignment = 1
 [connection signal="mouse_entered" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/Exit" to="MarginContainer/HBoxContainer/MainButtons" method="_on_exit_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/Exit" to="MarginContainer/HBoxContainer/MainButtons" method="_on_exit_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/MainButtons/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/DiffLevels/MarginContainer/VBoxContainer/Easy" to="MarginContainer/DiffLevels" method="_on_easy_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/DiffLevels/MarginContainer/VBoxContainer/Easy" to="MarginContainer/DiffLevels" method="_on_easy_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/DiffLevels/MarginContainer/VBoxContainer/Easy" to="MarginContainer/DiffLevels" method="_on_easy_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/DiffLevels/MarginContainer/VBoxContainer/Medium" to="MarginContainer/DiffLevels" method="_on_medium_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/DiffLevels/MarginContainer/VBoxContainer/Medium" to="MarginContainer/DiffLevels" method="_on_medium_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/DiffLevels/MarginContainer/VBoxContainer/Medium" to="MarginContainer/DiffLevels" method="_on_medium_pressed"]
+[connection signal="mouse_entered" from="MarginContainer/DiffLevels/MarginContainer/VBoxContainer/Hard" to="MarginContainer/DiffLevels" method="_on_hard_mouse_entered"]
+[connection signal="mouse_exited" from="MarginContainer/DiffLevels/MarginContainer/VBoxContainer/Hard" to="MarginContainer/DiffLevels" method="_on_hard_mouse_exited"]
+[connection signal="pressed" from="MarginContainer/DiffLevels/MarginContainer/VBoxContainer/Hard" to="MarginContainer/DiffLevels" method="_on_hard_pressed"]

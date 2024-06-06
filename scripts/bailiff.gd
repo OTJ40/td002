@@ -29,7 +29,15 @@ func pillage_base():
 
 func move(delta):
 	$HP.position = position - Vector2(14,24)
+	move_dupls()
 	progress += bailiff_resource.speed * delta
+
+func move_dupls():
+	if $Dupls.get_children().size() > 0:
+		for i in $Dupls.get_children():
+			i.position = position
+			#i.rotation = rotation
+	
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.has_method("on_hit"):
@@ -45,7 +53,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 func dying():
 	$HP.visible = false
 	$Hurtbox.call_deferred("free")
-	$Skin.set_speed_scale(0.25)
+	$Skin.set_speed_scale(0.2)
 	bailiff_resource.speed = lerpf(bailiff_resource.speed,0.0,0.8)
 	var tween = get_tree().create_tween().bind_node(self)
 	tween.tween_property(self,"modulate",Color(1,0,0,1.0),0.5)
@@ -58,7 +66,7 @@ func enemy():
 	pass
 
 func _on_hurtbox_mouse_entered() -> void:
-	var text = [self.name+" - HP: "+str(bailiff_resource.hp)+"/"+str(hp_max)+" SPEED: "+str(bailiff_resource.speed)]
+	var text = [self.name+" - HP: "+str(bailiff_resource.hp)+"/"+str(hp_max)+" SPEED: "+str(bailiff_resource.speed)+"   "]
 	info_hover.emit(text)
 
 func _on_hurtbox_mouse_exited() -> void:

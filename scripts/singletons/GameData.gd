@@ -2,17 +2,17 @@ extends Node
 
 const ENEMY_TYPE = "Bailiff"
 
-var tower_data = {
+@export var tower_data = {
 	"ArrowTower": {
 		"damage": 30,
-		"rate": 1,
-		"range": 125,
+		"rate": 1.0,
+		"reach": 125,
 		"speed": 600,
 		"first_cost": 50,
 		"upgrade_factor":{
 			"damage": 1.05,
 			"rate": 0.95,
-			"range": 1.05,
+			"reach": 1.05,
 			"speed": 1.05,
 		}
 	},

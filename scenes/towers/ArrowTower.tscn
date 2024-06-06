@@ -44,9 +44,9 @@ script = ExtResource("1_hlp86")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bounds"]
 shape = SubResource("CircleShape2D_tw0vi")
 
-[node name="Range" type="Area2D" parent="."]
+[node name="Reach" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Reach"]
 shape = SubResource("CircleShape2D_qnefi")
 
 [node name="Skins" type="Node2D" parent="."]
@@ -108,5 +108,5 @@ visible = false
 
 [connection signal="mouse_entered" from="Bounds" to="." method="_on_bounds_mouse_entered"]
 [connection signal="mouse_exited" from="Bounds" to="." method="_on_bounds_mouse_exited"]
-[connection signal="area_entered" from="Range" to="." method="_on_range_area_entered"]
-[connection signal="area_exited" from="Range" to="." method="_on_range_area_exited"]
+[connection signal="area_entered" from="Reach" to="." method="_on_reach_area_entered"]
+[connection signal="area_exited" from="Reach" to="." method="_on_reach_area_exited"]

@@ -3,7 +3,7 @@ extends Node2D
 signal game_finished
 
 const CANCEL_TIME_COOLDOWN = 0.4
-# todo 1 - game balance, 2 - improve infotower readability, 3 - , 4 - round ups
+# todo 1 - game balance, 2 - difflevels, 3 - , 4 - 
 @export var TIME_BETWEEN_WAVES = 2.5
 #@export var TOWER_COST = 50.0
 @export var map_node: PackedScene

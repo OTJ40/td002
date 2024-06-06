@@ -65,6 +65,8 @@ offset_top = -44.0
 offset_right = 19.0
 offset_bottom = -21.0
 
+[node name="Dupls" type="Node2D" parent="."]
+
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="mouse_entered" from="Hurtbox" to="." method="_on_hurtbox_mouse_entered"]
 [connection signal="mouse_exited" from="Hurtbox" to="." method="_on_hurtbox_mouse_exited"]
