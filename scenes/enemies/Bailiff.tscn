@@ -2,18 +2,17 @@
 
 [ext_resource type="Script" path="res://scripts/bailiff.gd" id="1_a3njh"]
 [ext_resource type="Texture2D" uid="uid://qlxr2j8iltpy" path="res://assets/assailant_01_move1.png" id="2_25vus"]
-[ext_resource type="Script" path="res://scenes/enemies/bailiff_resource.gd" id="2_vqgux"]
+[ext_resource type="Script" path="res://scenes/enemies/bailiff_data.gd" id="2_850c4"]
 [ext_resource type="Texture2D" uid="uid://kua57juqgutv" path="res://assets/assailant_01_move2.png" id="3_b1aay"]
 [ext_resource type="Texture2D" uid="uid://4007bn4htv0t" path="res://assets/HPbar_01.png" id="4_sjfj6"]
 [ext_resource type="Texture2D" uid="uid://c54m55r4sxa0i" path="res://assets/HPbar_frame.png" id="5_uvf03"]
 
-[sub_resource type="Resource" id="Resource_5jw4l"]
+[sub_resource type="Resource" id="Resource_k8lsj"]
 resource_local_to_scene = true
-script = ExtResource("2_vqgux")
+script = ExtResource("2_850c4")
 speed = 120.0
 damage = 0.0
 hp = 150.0
-hp_max = 150.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_q4g8b"]
 animations = [{
@@ -35,7 +34,7 @@ size = Vector2(24, 12)
 [node name="Bailiff" type="PathFollow2D"]
 loop = false
 script = ExtResource("1_a3njh")
-bailiff_resource = SubResource("Resource_5jw4l")
+bailiff_data = SubResource("Resource_k8lsj")
 
 [node name="Skin" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_q4g8b")

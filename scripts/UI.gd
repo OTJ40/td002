@@ -1,6 +1,11 @@
 extends CanvasLayer
 
-
+func _ready() -> void:
+	
+	var tween = create_tween()
+	tween.tween_property($"..","modulate",Color("ffffff"),1.0).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	await G.timer(1.0)
+	$".."._on_ui_ready()
 
 func set_tower_preview(tower_type, mouse_position):
 	var path = "res://scenes/towers/" + tower_type + ".tscn"
@@ -60,15 +65,19 @@ func update_next_wave_info(wave):
 	"Next Wave: " + str(wave) + " bailiffs"
 
 func update_current_info(num,total):
-	$HUD/HeaderLeft/MarginContainer3/Panel/CurrentWaveInfoLabel.text = "Current Wave: "+str(num)+"/"+str(total)
+	$HUD/HeaderLeft/MarginContainer3/Panel/CurrentWaveInfoLabel.text \
+	= "Current Wave:  "+str(num)+" / "+str(total)
 
-func update_health(health,max_health):
+func update_money(money,max_money):
 	#print(health)
-	if health < 0.0:
-		health = 0.0
-	$HUD/HeaderRight/MoneyLabel.text = str(round(health))+" / "+str(max_health)
-	$HUD/HeaderRight/MarginContainer/ProgressBar.max_value = max_health
-	$HUD/HeaderRight/MarginContainer/ProgressBar.value = health
+	if money < 0.0:
+		money = 0.0
+	var money_string = "%6.1f" % money
+	#$HUD/HeaderRight/MoneyLabel.text = str(money)+" / "+str(max_money)
+	$HUD/HeaderRight/MoneyLabel.text = money_string+" / "+str(max_money)
+	#$HUD/HeaderRight/MoneyLabel.text = str(snappedf(money,0.1))+" / "+str(max_money)
+	$HUD/HeaderRight/MarginContainer/ProgressBar.max_value = max_money
+	$HUD/HeaderRight/MarginContainer/ProgressBar.value = money
 
 func _on_fast_forward_pressed() -> void:
 	G.is_game_slowed = false

@@ -2,7 +2,7 @@ extends Node
 
 const ENEMY_TYPE = "Bailiff"
 
-@export var tower_data = {
+var tower_data = {
 	"ArrowTower": {
 		"damage": 30,
 		"rate": 1.0,
@@ -20,11 +20,21 @@ const ENEMY_TYPE = "Bailiff"
 
 var levels_xp = []
 var moneypools = [120.0,160.0,210.0,280.0,370.0,490.0,650.0,870.0] # /0.75
+var bailiff_pillage_factor 
+
+func _set_bailiff_pillage_factor(difficulty: String):
+	match difficulty:
+		"easy":
+			return 8.0
+		"medium":
+			return 9.0
+		"hard":
+			return 10.0
 
 func set_levels_xp(base_xp,exponent):
 	var level = 1
 	var xp = 0
-	for i in range(1,37):
+	for i in range(1,67):
 		xp = round(pow((level),exponent)*base_xp)
 		level += 1
 		levels_xp.append(Vector2i(level,xp))

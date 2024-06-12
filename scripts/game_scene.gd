@@ -3,7 +3,10 @@ extends Node2D
 signal game_finished
 
 const CANCEL_TIME_COOLDOWN = 0.4
-# todo 1 - game balance, 2 - difflevels, 3 - , 4 - 
+# todo 1 - game balance,
+# 2 - difflevels(xplevels(!),bailiffdata(!),moneypools,towercost),
+# 3 - rename G singleton,
+# 4 - tower options menu TargetPriorityMenu
 @export var TIME_BETWEEN_WAVES = 2.5
 #@export var TOWER_COST = 50.0
 @export var map_node: PackedScene
@@ -11,7 +14,7 @@ const CANCEL_TIME_COOLDOWN = 0.4
 
 # === money === #
 var t = 0
-var money = 90.0
+var money: float = 90.0
 var money_factor = 1.0
 var money_stop = false
 var moneypool_level = 0
@@ -33,12 +36,14 @@ var build_location
 var build_type
 var build_tile
 
+
 func _ready() -> void:
+	#for i in get_tree().get_nodes_in_group("menu_cover"):
+		#i.visible = true
 	progress_bar_ls = LabelSettings.new()
+	progress_bar_ls.font_size = 14.0
 	tower_cost = GameData.tower_data["ArrowTower"]["first_cost"]
-	G.is_game_slowed = true
-	Engine.set_time_scale(0.001)
-	get_node("UI").update_health(money,GameData.moneypools[moneypool_level])
+	get_node("UI").update_money(money,GameData.moneypools[moneypool_level])
 	get_node("UI").update_next_wave_info(current_wave)
 	
 	game_finished.connect(Callable(get_parent(),"_on_game_finished"))
@@ -48,31 +53,36 @@ func _ready() -> void:
 	# === todo in future: several types of buildings === #
 	for build_button in get_tree().get_nodes_in_group("build_buttons"):
 		build_button.pressed.connect(start_build_mode.bind(build_button.name))
+	G.is_game_slowed = true
 
 func check_moneypool():
 	if money > GameData.moneypools[moneypool_level]:
 		moneypool_level += 1
-		money_factor += 0.1
-		$UI/HUD/HeaderRight/MarginContainer/FactorLabel.text = str(money_factor)
+		money_factor += 0.05
+		var money_factor_string = "%.2f" % money_factor # %010d
+		$UI/HUD/HeaderRight/MarginContainer/FactorLabel.text = money_factor_string
 
-func check_factor():
+func check_factor_color():
 	progress_bar_ls.font_color =\
 	Color.BLACK if money/GameData.moneypools[moneypool_level] > 0.5 else Color.WHITE
 	$UI/HUD/HeaderRight/MarginContainer/FactorLabel.set("label_settings",progress_bar_ls) 
 
 func _physics_process(delta: float) -> void:
-	#print(money/GameData.moneypools[moneypool_level])
+	#print(delta * money_factor)
 	check_moneypool()
+	
 	t += 1
 	if t == 6:
-		check_factor()
-		get_node("UI").update_health(money,GameData.moneypools[moneypool_level])
+		check_factor_color()
+		get_node("UI").update_money(money,GameData.moneypools[moneypool_level])
 		t = 0
+	
 	if not G.is_game_slowed and not money_stop:
 		money += delta * money_factor
 	#prints(money,moneypool_level,money_factor,t)
 
 func _process(_delta: float) -> void:
+	#print(Engine.get_time_scale())
 	#prints(tower_cost,$UI/HUD/FooterRight/HBoxContainer/PausePlay.is_pressed())
 	if bailiffs_on_field_array.size() <= 0 and current_wave_finished and current_wave > 0:
 		$UI/HUD/HeaderLeft/MarginContainer3/WaveProgress.reset_wave_progress()
@@ -105,7 +115,7 @@ func cancel_build_mode():
 	is_build_valid = false
 	is_build_mode = false
 	get_node("UI/TowerPreview").free()
-	await G.timer(G.get_time_cooldown(CANCEL_TIME_COOLDOWN))
+	await G.timer(G.get_scaled_time(CANCEL_TIME_COOLDOWN))
 	start_show_menus()
 
 func verify_and_build():
@@ -173,8 +183,8 @@ func spawn_enemies(wave_data):
 		
 		new_bailiff_instance.base_damage.connect(Callable(self,"on_base_damage"))
 		new_bailiff_instance.bailiff_death.connect(Callable(self,"bailiff_death"))
-		new_bailiff_instance.bailiff_resource.hp += current_wave-1
-		new_bailiff_instance.bailiff_resource.speed += (current_wave-1)*0.5
+		new_bailiff_instance.bailiff_data.hp += current_wave-1
+		new_bailiff_instance.bailiff_data.speed += (current_wave-1)*0.5
 		
 		bailiffs_on_field_array.append(new_bailiff_instance)
 		var path_array = map_instance.get_node("Paths").get_children()
@@ -196,11 +206,11 @@ func on_base_damage(damage,bailiff):
 		G.game_speed(0.2)
 		arrows_off()
 		towers_off()
-		await G.timer(G.get_time_cooldown(1))
+		await G.timer(G.get_scaled_time(1))
 		game_finished.emit()
 		queue_free()
 	else:
-		get_node("UI").update_health(money,GameData.moneypools[moneypool_level])
+		get_node("UI").update_money(money,GameData.moneypools[moneypool_level])
 
 func arrows_off():
 	var arrows = $Arrows.get_children()
@@ -213,6 +223,7 @@ func towers_off():
 		twr.is_playing = false
 
 func on_tower_sold(_tile_coords):
+	money += GameData.tower_data["ArrowTower"]["first_cost"]
 	map_instance.get_node("Exclusions").erase_cell(0,_tile_coords)
 
 func _on_info_hover(_text_array):
@@ -269,3 +280,10 @@ func set_map():
 	map_instance = map_node.instantiate()
 	add_child(map_instance)
 	move_child(map_instance,0)
+
+func _on_ui_ready():
+	Engine.set_time_scale(0.001)
+	$UI/HUD/CenterMenu.visible = false
+	$UI/HUD/CenterMenu/Container.visible = true
+	#for i in get_tree().get_nodes_in_group("menu_cover"):
+		#i.visible = false

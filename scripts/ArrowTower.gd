@@ -61,16 +61,16 @@ func _ready() -> void:
 		hover_on_tower_timer.one_shot = true
 		add_child(hover_on_tower_timer)
 		
-		$Reach/CollisionShape2D.shape.radius = $Data.reach # GameData.tower_data[tower_type]["reach"]
+		$Reach/CollisionShape2D.shape.radius = $TowerData.reach # GameData.tower_data[tower_type]["reach"]
 		shoot.connect($"../../Arrows".create_arrow)
 		tower_sold.connect(Callable(get_parent().get_parent(),"on_tower_sold").bind(tile_coords))
 		retrieve_info()
 
 func retrieve_info():
-	var text = "damage = %s%s%s%s" % [str(snappedf($Data.damage,0.01)),"(",str(GameData.tower_data["ArrowTower"]["damage"]),")"]
-	text += "\n"+"rate = %s%s%s%s" % [str(snappedf($Data.rate,0.01)),"(",str(GameData.tower_data["ArrowTower"]["rate"]),")"]
-	text += "\n"+"reach = %s%s%s%s" % [str(snappedf($Data.reach,0.01)),"(",str(GameData.tower_data["ArrowTower"]["reach"]),")"]
-	text += "\n"+"speed = %s%s%s%s" % [str(snappedf($Data.speed,0.01)),"(",str(GameData.tower_data["ArrowTower"]["speed"]),")"]
+	var text = "damage = %s%s%s%s" % [str(snappedf($TowerData.damage,0.01)),"(",str(GameData.tower_data["ArrowTower"]["damage"]),")"]
+	text += "\n"+"rate = %s%s%s%s" % [str(snappedf($TowerData.rate,0.01)),"(",str(GameData.tower_data["ArrowTower"]["rate"]),")"]
+	text += "\n"+"reach = %s%s%s%s" % [str(snappedf($TowerData.reach,0.01)),"(",str(GameData.tower_data["ArrowTower"]["reach"]),")"]
+	text += "\n"+"speed = %s%s%s%s" % [str(snappedf($TowerData.speed,0.01)),"(",str(GameData.tower_data["ArrowTower"]["speed"]),")"]
 	text += "\n"+"level = %s%s%s%s" % [str(level),"(",str(levels_to_upgrade),")"]
 	$Info.set_label(text)
 
@@ -103,12 +103,12 @@ func _physics_process(_delta: float) -> void:
 	if any_target_in_reach and is_tower_built:
 		turn_tower()
 		if weapon_loaded:
-			var target = select_target()
+			var target = select_targe()
 			var direction_to_target = position.direction_to(target.global_position)
 			if is_playing:
 				shoot.emit(direction_to_target,position,self)
 				weapon_loaded = false
-				fire_cooldown_timer.start($Data.rate)
+				fire_cooldown_timer.start($TowerData.rate)
 		else:
 			$Skins/Bow.visible = false
 			$Skins/BowLoosen.visible = true
@@ -120,6 +120,14 @@ func show_menu():
 	else:
 		$TowerMenu.visible = false
 		_has_open_menu = false
+
+func select_targe():
+	var target_hp_array = []
+	for t in target_array:
+		target_hp_array.append(t.get_parent().bailiff_data.hp)
+	var min_hp = target_hp_array.min()
+	var target_index = target_hp_array.find(min_hp)
+	return target_array[target_index]
 
 func select_target():
 	var target_progress_array = []
@@ -160,7 +168,7 @@ func _on_reach_area_exited(area: Area2D) -> void:
 
 func _on_bounds_mouse_entered() -> void:
 	if is_tower_built and not _has_open_dialog:
-		hover_on_tower_timer.start(G.get_time_cooldown(HOVER_TIME_COOLDOWN))
+		hover_on_tower_timer.start(G.get_scaled_time(HOVER_TIME_COOLDOWN))
 	get_node("Bounds/CollisionShape2D").shape.radius = BOUNDS_HOVERING_RADIUS
 	out_of_bounds_timer.stop()
 
@@ -169,7 +177,7 @@ func _on_bounds_mouse_exited() -> void:
 	get_node("Bounds/CollisionShape2D").shape.radius = BOUNDS_NORMAL_RADIUS
 	if is_tower_built:
 		is_mouse_on_tower = false
-		out_of_bounds_timer.start(G.get_time_cooldown(INFO_TIME_COOLDOWN))
+		out_of_bounds_timer.start(G.get_scaled_time(INFO_TIME_COOLDOWN))
 
 func _on_hover_on_tower_timeout():
 	if is_tower_built:
@@ -178,6 +186,16 @@ func _on_hover_on_tower_timeout():
 
 func _on_out_of_bounds_timeout():
 	is_show_info_panel = false
+
+func _on_options_pressed():
+	_has_open_dialog = true
+	$Bounds.visible = false
+	is_mouse_on_tower = false
+	is_show_info_panel = false
+	$OptionsMenu.visible = true
+
+func _on_target_priority_pressed():
+	pass
 
 func _on_up_pressed():
 	if levels_to_upgrade > 0:
@@ -196,27 +214,27 @@ func _on_sell_pressed():
 
 func _on_damage_pressed():
 	if levels_to_upgrade > 0:
-		$Data.damage *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["damage"]
+		$TowerData.damage *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["damage"]
 		levels_to_upgrade -= 1
 	_on_cancel_pressed()
 
 func _on_rate_pressed():
 	if levels_to_upgrade > 0:
-		$Data.rate *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["rate"]
+		$TowerData.rate *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["rate"]
 		levels_to_upgrade -= 1
 	_on_cancel_pressed()
 
 func _on_reach_pressed():
 	if levels_to_upgrade > 0:
-		$Data.reach *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["reach"]
-		get_node("Reach/CollisionShape2D").shape.radius = $Data.reach
+		$TowerData.reach *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["reach"]
+		get_node("Reach/CollisionShape2D").shape.radius = $TowerData.reach
 		#$Reach/CollisionShape2D.shape.radius = $Data.reach
 		levels_to_upgrade -= 1
 	_on_cancel_pressed()
 
 func _on_speed_pressed():
 	if levels_to_upgrade > 0:
-		$Data.speed *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["speed"]
+		$TowerData.speed *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["speed"]
 		levels_to_upgrade -= 1
 	_on_cancel_pressed()
 
@@ -231,11 +249,11 @@ func _on_info_pressed():
 func _on_dialog_ok_pressed() -> void:
 	_has_open_dialog = false
 	tower_sold.emit()
-	await G.timer(G.get_time_cooldown(INFO_TIME_COOLDOWN))
+	await G.timer(G.get_scaled_time(INFO_TIME_COOLDOWN))
 	call_deferred("queue_free")
 
 func _on_cancel_pressed() -> void:
-	await G.timer(G.get_time_cooldown(INFO_TIME_COOLDOWN))
+	await G.timer(G.get_scaled_time(INFO_TIME_COOLDOWN))
 	_has_open_dialog = false
 	$SellDialog.visible = false
 	$UpMenu.visible = false

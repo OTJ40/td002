@@ -54,7 +54,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(100, 30)
 layout_mode = 2
-text = "sell tower for 12 coins?"
+text = "sell tower for 50 fartings?"
 label_settings = ExtResource("2_oyieu")
 horizontal_alignment = 1
 vertical_alignment = 1

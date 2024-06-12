@@ -11,8 +11,8 @@ var direction = Vector2.ZERO
 var life_timer = Timer.new()
 
 func _ready() -> void:
-	DAMAGE = tower.get_node("Data").damage
-	SPEED = tower.get_node("Data").speed
+	DAMAGE = tower.get_node("TowerData").damage
+	SPEED = tower.get_node("TowerData").speed
 	arrow_texture = load("res://assets/arrow_01.png")
 	life_timer.timeout.connect(_arrow_destruction)
 	life_timer.wait_time = 1.5
@@ -44,7 +44,7 @@ func _arrow_duplication(injury: Area2D):
 	var dt = Timer.new()
 	dt.timeout.connect(func(): dupl.queue_free())
 	dt.autostart = true
-	dt.wait_time = 3.0
+	dt.wait_time = 2.0
 	dupl.add_child(dt)
 	dupl.texture = arrow_texture
 	dupl.scale = Vector2(0.7,0.7)
@@ -54,7 +54,7 @@ func _arrow_duplication(injury: Area2D):
 	dupl.position = injury.global_position
 	dupl.set_as_top_level(true)
 	var tween = get_tree().create_tween().bind_node(dupl)
-	tween.tween_property(dupl,"modulate",Color(0,0,0,0),2.5)
+	tween.tween_property(dupl,"modulate",Color(0,0,0,0),1.5)
 	tween.finished.connect(func(): tween.kill())
 
 func on_hit(points,kills):

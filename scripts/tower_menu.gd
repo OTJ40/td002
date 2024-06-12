@@ -5,7 +5,7 @@ signal info_hover
 signal up_pressed
 signal sell_pressed
 signal info_pressed
-
+signal options_pressed
 
 
 func _ready() -> void:
@@ -14,6 +14,7 @@ func _ready() -> void:
 	up_pressed.connect(Callable(get_parent(),"_on_up_pressed"))
 	sell_pressed.connect(Callable(get_parent(),"_on_sell_pressed"))
 	info_pressed.connect(Callable(get_parent(),"_on_info_pressed"))
+	options_pressed.connect(Callable(get_parent(),"_on_options_pressed"))
 	info_hover.connect(Callable(game_scene,"_on_info_hover"))
 
 func _on_up_pressed() -> void:
@@ -24,6 +25,9 @@ func _on_sell_pressed() -> void:
 
 func _on_info_pressed() -> void:
 	info_pressed.emit()
+
+func _on_options_pressed() -> void:
+	options_pressed.emit()
 
 func _on_up_mouse_entered() -> void:
 	info_hover.emit(["   Upgrade tower   "])
@@ -43,3 +47,11 @@ func _on_info_mouse_entered() -> void:
 
 func _on_info_mouse_exited() -> void:
 	info_hover.emit([""])
+
+func _on_options_mouse_entered() -> void:
+	var text = ["   Options tower   "]
+	info_hover.emit(text)
+
+func _on_options_mouse_exited() -> void:
+	info_hover.emit([""])
+

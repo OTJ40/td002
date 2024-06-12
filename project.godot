@@ -24,6 +24,7 @@ G="*res://scripts/singletons/G.gd"
 
 window/size/viewport_width=1600
 window/size/viewport_height=960
+window/size/always_on_top=true
 window/stretch/mode="viewport"
 mouse_cursor/custom_image="res://assets/cursor_pointer3D_shadow.png"
 

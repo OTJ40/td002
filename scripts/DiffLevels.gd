@@ -1,15 +1,5 @@
 extends PanelContainer
 
-
-func _on_easy_pressed() -> void:
-	pass # Replace with function body.
-
-func _on_medium_pressed() -> void:
-	pass # Replace with function body.
-
-func _on_hard_pressed() -> void:
-	pass # Replace with function body.
-
 func _on_easy_mouse_entered() -> void:
 	G.button_tween_entered($MarginContainer/VBoxContainer/Easy/Label,0.85)
 

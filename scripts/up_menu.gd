@@ -46,9 +46,9 @@ func _on_up_speed_pressed() -> void:
 func _on_up_damage_mouse_entered() -> void:
 	var text = [
 		"   Upgrade damage to ", 
-		str(snappedf(tower.get_node("Data").damage*damage_factor,0.01)), 
+		str(snappedf(tower.get_node("TowerData").damage*damage_factor,0.01)), 
 		" from ", 
-		str(snappedf(tower.get_node("Data").damage,0.01)),
+		str(snappedf(tower.get_node("TowerData").damage,0.01)),
 		"   "
 	]
 	info_hover.emit(text)
@@ -58,9 +58,9 @@ func _on_up_damage_mouse_exited() -> void:
 
 func _on_up_reach_mouse_entered() -> void:
 	var text = ["   Upgrade reach to ",
-		str(snappedf(tower.get_node("Data").reach*reach_factor,0.01)),
+		str(snappedf(tower.get_node("TowerData").reach*reach_factor,0.01)),
 		" from ",
-		str(snappedf(tower.get_node("Data").reach,0.01)),
+		str(snappedf(tower.get_node("TowerData").reach,0.01)),
 		"   "
 	]
 	info_hover.emit(text)
@@ -70,9 +70,9 @@ func _on_up_reach_mouse_exited() -> void:
 
 func _on_up_rate_mouse_entered() -> void:
 	var text = ["   Upgrade rate to ",
-		str(snappedf(tower.get_node("Data").rate*rate_factor,0.01)),
+		str(snappedf(tower.get_node("TowerData").rate*rate_factor,0.01)),
 		" from ",
-		str(snappedf(tower.get_node("Data").rate,0.01)),
+		str(snappedf(tower.get_node("TowerData").rate,0.01)),
 		"   "
 	]
 	info_hover.emit(text)
@@ -81,7 +81,12 @@ func _on_up_rate_mouse_exited() -> void:
 	info_hover.emit([""])
 
 func _on_up_speed_mouse_entered() -> void:
-	var text = ["   Upgrade speed to ", str(snappedf(tower.get_node("Data").speed*speed_factor,0.01)), " from ", str(snappedf(tower.get_node("Data").speed,0.01)),"   "]
+	var text = ["   Upgrade speed to ",
+		str(snappedf(tower.get_node("TowerData").speed*speed_factor,0.01)),
+		" from ",
+		str(snappedf(tower.get_node("TowerData").speed,0.01)),
+		"   "
+	]
 	info_hover.emit(text)
 
 func _on_up_speed_mouse_exited() -> void:

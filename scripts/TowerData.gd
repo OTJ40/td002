@@ -1,9 +1,9 @@
 extends Node
 
-var damage
-var rate
-var reach
-var speed
+var damage: float
+var rate: float
+var reach: float
+var speed: float
 
 
 func _ready() -> void:

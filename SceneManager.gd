@@ -4,29 +4,35 @@ extends Node
 @export var DEATH_SPLASH_SCREEN: PackedScene
 @export var GAME_SCENE: PackedScene
 
-@export var base_xp: float = 15.0
+var base_xp: float
 @export var exponent: float = 1.4 # 1.45
 
 func _ready() -> void:
-	#print(snappedf(1/3.0,0.0001))
-	GameData.set_levels_xp(base_xp,exponent)
-	#GameData.set_levels_xp(base_xp,exponent-0.03)
 	_load_main_menu()
 
 func _load_main_menu():
+	GameData.levels_xp = []
 	var main_menu = MAIN_MENU.instantiate()
 	add_child(main_menu)
 	
 
 func _on_game_finished():
 	var death_splash_screen = DEATH_SPLASH_SCREEN.instantiate()
-	Engine.set_time_scale(1.0)
 	G.game_speed(1.0)
 	add_child(death_splash_screen)
 
-func _on_game_started():
+func _on_game_started(difficulty: String):
 	var new_game = GAME_SCENE.instantiate()
-	#new_game.modulate = Color("ffffff00")
-	var tween = create_tween()
+	match difficulty:
+		"easy":
+			base_xp = 13.0
+		"medium":
+			base_xp = 14.0
+		"hard":
+			base_xp = 15.0
+	GameData.bailiff_pillage_factor =\
+		GameData._set_bailiff_pillage_factor(difficulty)
+	GameData.set_levels_xp(base_xp,exponent)
+	new_game.modulate = Color("ffffff00")
 	add_child(new_game)
-	tween.tween_property(new_game,"modulate",Color("ffffff"),0.7)
+	
