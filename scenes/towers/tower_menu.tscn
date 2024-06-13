@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cagq3wea5nsak"]
+[gd_scene load_steps=12 format=3 uid="uid://cagq3wea5nsak"]
 
 [ext_resource type="Shader" path="res://assets/shaders/blur_01.gdshader" id="1_01c10"]
 [ext_resource type="Script" path="res://scripts/tower_menu.gd" id="1_7rxvc"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://blcuelsdmmaee" path="res://assets/sell_btn_01_hover.png" id="5_cb44h"]
 [ext_resource type="Texture2D" uid="uid://nkdhp3lse8rr" path="res://assets/info_btn_01.png" id="7_ms0d6"]
 [ext_resource type="Texture2D" uid="uid://dxqu8gq0lsqgv" path="res://assets/info_btn_01_hover.png" id="8_6hcok"]
+[ext_resource type="Texture2D" uid="uid://b5gr45cpab5md" path="res://assets/options_btn_01.png" id="9_it0ub"]
+[ext_resource type="Texture2D" uid="uid://irem8jay1ed6" path="res://assets/options_btn_01_hover.png" id="10_eodlf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a7la0"]
 shader = ExtResource("1_01c10")
@@ -52,10 +54,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -83,8 +85,8 @@ texture_hover = ExtResource("8_6hcok")
 
 [node name="Options" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-texture_normal = ExtResource("7_ms0d6")
-texture_hover = ExtResource("8_6hcok")
+texture_normal = ExtResource("9_it0ub")
+texture_hover = ExtResource("10_eodlf")
 
 [connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer/Up" to="." method="_on_up_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/VBoxContainer/HBoxContainer/Up" to="." method="_on_up_mouse_exited"]

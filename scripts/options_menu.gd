@@ -13,7 +13,7 @@ func _on_target_priority_pressed() -> void:
 
 func _on_target_priority_mouse_entered() -> void:
 	var text = [
-		"   target_priority "
+		"   target_priority  "
 	]
 	info_hover.emit(text)
 

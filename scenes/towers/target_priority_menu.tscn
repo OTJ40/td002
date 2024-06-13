@@ -23,9 +23,17 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 [node name="TargetPriorityMenu" type="Control"]
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 3
-anchors_preset = 0
-offset_right = 144.0
-offset_bottom = 144.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -72.0
+offset_right = 72.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_m07qh")
 
 [node name="Panel" type="Panel" parent="."]
@@ -59,6 +67,7 @@ theme_override_fonts/font = ExtResource("3_iulad")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_2nkwm")
 toggle_mode = true
+button_pressed = true
 button_group = ExtResource("1_tjign")
 text = "Nearest To Base"
 
@@ -110,3 +119,9 @@ focus_mode = 0
 theme_override_fonts/font = ExtResource("3_iulad")
 theme_override_font_sizes/font_size = 18
 text = "OK"
+
+[connection signal="toggled" from="VBoxContainer/NearestToBase" to="." method="_on_nearest_to_base_toggled"]
+[connection signal="toggled" from="VBoxContainer/LeastHP" to="." method="_on_least_hp_toggled"]
+[connection signal="toggled" from="VBoxContainer/Random" to="." method="_on_random_toggled"]
+[connection signal="toggled" from="VBoxContainer/Boss" to="." method="_on_boss_toggled"]
+[connection signal="pressed" from="VBoxContainer/OK" to="." method="_on_ok_pressed"]

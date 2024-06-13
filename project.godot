@@ -38,7 +38,9 @@ folder_colors={
 "res://addons/": "red",
 "res://assets/": "teal",
 "res://scenes/": "purple",
-"res://scenes/enemies/": "purple",
+"res://scenes/enemies/": "red",
+"res://scenes/maps/": "yellow",
+"res://scenes/towers/": "green",
 "res://scripts/": "orange"
 }
 

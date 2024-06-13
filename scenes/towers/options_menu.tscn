@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://scripts/options_menu.gd" id="1_0av2d"]
 [ext_resource type="Shader" path="res://assets/shaders/blur_01.gdshader" id="2_hshuo"]
-[ext_resource type="Texture2D" uid="uid://umpnfd5l848p" path="res://assets/upgrade_damage_btn_01.png" id="2_vxpiv"]
-[ext_resource type="Texture2D" uid="uid://bibp5r32fu2a3" path="res://assets/upgrade_damage_btn_01_hover.png" id="3_x3vae"]
+[ext_resource type="Texture2D" uid="uid://badtq3ewxdp17" path="res://assets/target_priority_btn_01.png" id="3_xwqvu"]
+[ext_resource type="Texture2D" uid="uid://dnck77x27ynfo" path="res://assets/target_priority_btn_01_hover.png" id="4_1t8gk"]
 [ext_resource type="Texture2D" uid="uid://fytkssg4j6cw" path="res://assets/upgrade_range_btn_01.png" id="4_p8xhm"]
 [ext_resource type="Texture2D" uid="uid://bwpihw5meegxv" path="res://assets/upgrade_range_btn_01_hover.png" id="5_ffrht"]
 [ext_resource type="Texture2D" uid="uid://d0pdi8gbnm82c" path="res://assets/upgrade_rate_btn_01.png" id="6_n2tky"]
@@ -56,8 +56,8 @@ layout_mode = 2
 
 [node name="TargetPriority" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("2_vxpiv")
-texture_hover = ExtResource("3_x3vae")
+texture_normal = ExtResource("3_xwqvu")
+texture_hover = ExtResource("4_1t8gk")
 
 [node name="Options2" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2

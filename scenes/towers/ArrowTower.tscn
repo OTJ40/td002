@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://wu3iermqd1an"]
+[gd_scene load_steps=17 format=3 uid="uid://wu3iermqd1an"]
 
 [ext_resource type="Script" path="res://scripts/ArrowTower.gd" id="1_hlp86"]
 [ext_resource type="Texture2D" uid="uid://djpr4duac7s3x" path="res://assets/arrow_tower_02_base.png" id="2_012o6"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://buxubhcygkl85" path="res://scenes/towers/options_menu.tscn" id="9_e2bbp"]
 [ext_resource type="Script" path="res://scripts/TowerData.gd" id="9_r050j"]
 [ext_resource type="PackedScene" uid="uid://ps1d4p6vuf2u" path="res://scenes/towers/upgrade_halo.tscn" id="10_6grr5"]
+[ext_resource type="PackedScene" uid="uid://da05dt7owp230" path="res://scenes/towers/target_priority_menu.tscn" id="10_585xk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tw0vi"]
 resource_local_to_scene = true
@@ -102,6 +103,9 @@ grow_vertical = 2
 visible = false
 
 [node name="OptionsMenu" parent="." instance=ExtResource("9_e2bbp")]
+visible = false
+
+[node name="TargetPriorityMenu" parent="." instance=ExtResource("10_585xk")]
 visible = false
 
 [node name="TowerData" type="Node" parent="."]

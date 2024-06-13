@@ -4,6 +4,12 @@ signal shoot
 signal tower_sold
 signal level_up
 
+enum TARGET_PRIORITY {
+	NEAREST_TO_BASE = 1,
+	LEAST_HP,
+	RANDOM,
+	BOSS
+}
 
 var FIRE_COOLDOWN = 1.0
 @export var INFO_TIME_COOLDOWN = 0.4
@@ -30,7 +36,11 @@ var hover_on_tower_timer = Timer.new()
 var fire_cooldown_timer = Timer.new()
 var weapon_loaded = true
 var any_target_in_reach = false
+var target_priority_choice = TARGET_PRIORITY.NEAREST_TO_BASE
+#var target_priority_choice = TARGET_PRIORITY.RANDOM
 var target_array = []
+var has_random_target = false
+var target: Area2D
 
 # === xp === #
 #var temp_points = 0
@@ -72,11 +82,11 @@ func retrieve_info():
 	text += "\n"+"reach = %s%s%s%s" % [str(snappedf($TowerData.reach,0.01)),"(",str(GameData.tower_data["ArrowTower"]["reach"]),")"]
 	text += "\n"+"speed = %s%s%s%s" % [str(snappedf($TowerData.speed,0.01)),"(",str(GameData.tower_data["ArrowTower"]["speed"]),")"]
 	text += "\n"+"level = %s%s%s%s" % [str(level),"(",str(levels_to_upgrade),")"]
+	text += "\n"+"target priority = %s" % TARGET_PRIORITY.keys()[target_priority_choice-1]
 	$Info.set_label(text)
 
 func _process(_delta: float) -> void:
 	
-	#print(levels_to_upgrade)
 	if is_tower_built:
 		if not get_parent().any_tower_has_open_menu(self):
 			show_menu()
@@ -100,18 +110,36 @@ func check_level():
 		retrieve_info()
 
 func _physics_process(_delta: float) -> void:
+	#prints(has_random_target,target,target_array)
 	if any_target_in_reach and is_tower_built:
-		turn_tower()
+		match target_priority_choice:
+			TARGET_PRIORITY.NEAREST_TO_BASE:
+				target = select_target_nearest_to_base()
+			TARGET_PRIORITY.LEAST_HP:
+				target = select_target_least_hp()
+			TARGET_PRIORITY.RANDOM:
+				if not has_random_target:
+					target = select_target_random()
+					has_random_target = true
+			TARGET_PRIORITY.BOSS:
+				target = select_target_boss()
+		turn_tower(target)
 		if weapon_loaded:
-			var target = select_targe()
 			var direction_to_target = position.direction_to(target.global_position)
 			if is_playing:
 				shoot.emit(direction_to_target,position,self)
 				weapon_loaded = false
+				has_random_target = false
+				target = null
 				fire_cooldown_timer.start($TowerData.rate)
 		else:
 			$Skins/Bow.visible = false
 			$Skins/BowLoosen.visible = true
+
+func turn_tower(_target):
+	var target_pos = _target.global_position
+	$Skins/Bow.look_at(target_pos)
+	$Skins/BowLoosen.look_at(target_pos)
 
 func show_menu():
 	if  is_mouse_on_tower or is_show_info_panel:
@@ -121,7 +149,7 @@ func show_menu():
 		$TowerMenu.visible = false
 		_has_open_menu = false
 
-func select_targe():
+func select_target_least_hp():
 	var target_hp_array = []
 	for t in target_array:
 		target_hp_array.append(t.get_parent().bailiff_data.hp)
@@ -129,7 +157,18 @@ func select_targe():
 	var target_index = target_hp_array.find(min_hp)
 	return target_array[target_index]
 
-func select_target():
+func select_target_boss():
+	pass
+
+func select_target_random():
+	#if not target_array.size() < 1:
+		var target_random_array = target_array.duplicate()
+		var rnd_target = target_random_array.pick_random()
+		var target_index = target_random_array.find(rnd_target)
+		has_random_target = true
+		return target_array[target_index]
+
+func select_target_nearest_to_base():
 	var target_progress_array = []
 	for t in target_array:
 		target_progress_array.append(t.get_parent().progress)
@@ -137,10 +176,6 @@ func select_target():
 	var target_index = target_progress_array.find(max_progress)
 	return target_array[target_index]
 
-func turn_tower():
-	var target_pos = select_target().global_position
-	$Skins/Bow.look_at(target_pos)
-	$Skins/BowLoosen.look_at(target_pos)
 
 func _on_fire_timer_cooldown() -> void:
 	if fire_cooldown_timer.is_stopped():
@@ -161,6 +196,9 @@ func _on_reach_area_entered(area: Area2D) -> void:
 			any_target_in_reach = true
 
 func _on_reach_area_exited(area: Area2D) -> void:
+	if target_priority_choice == TARGET_PRIORITY.RANDOM and area == target:
+		has_random_target = false
+		target = null
 	if area.get_parent().has_method("enemy"):
 		target_array.erase(area)
 	if target_array.size() < 1:
@@ -188,29 +226,32 @@ func _on_out_of_bounds_timeout():
 	is_show_info_panel = false
 
 func _on_options_pressed():
-	_has_open_dialog = true
-	$Bounds.visible = false
-	is_mouse_on_tower = false
-	is_show_info_panel = false
+	open_dialog()
 	$OptionsMenu.visible = true
 
 func _on_target_priority_pressed():
-	pass
+	$OptionsMenu.visible = false
+	open_dialog()
+	$TargetPriorityMenu.visible = true
+
+func _on_target_priority_chosen(_target_priority_choice):
+	target_priority_choice = _target_priority_choice
+	$TargetPriorityMenu.visible = false
+	_on_cancel_pressed()
 
 func _on_up_pressed():
 	if levels_to_upgrade > 0:
-		_has_open_dialog = true
-		$Bounds.visible = false
-		is_mouse_on_tower = false
-		is_show_info_panel = false
+		open_dialog()
 		$UpMenu.visible = true
 
 func _on_sell_pressed():
-	_has_open_dialog = true
+	open_dialog()
 	$SellDialog.visible = true
-	$Bounds.visible = false
-	is_mouse_on_tower = false
-	is_show_info_panel = false
+
+func _on_info_pressed():
+	open_dialog()
+	retrieve_info()
+	$Info.visible = true
 
 func _on_damage_pressed():
 	if levels_to_upgrade > 0:
@@ -238,10 +279,8 @@ func _on_speed_pressed():
 		levels_to_upgrade -= 1
 	_on_cancel_pressed()
 
-func _on_info_pressed():
-	retrieve_info()
+func open_dialog():
 	_has_open_dialog = true
-	$Info.visible = true
 	$Bounds.visible = false
 	is_mouse_on_tower = false
 	is_show_info_panel = false
