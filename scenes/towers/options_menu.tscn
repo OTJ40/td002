@@ -1,15 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://buxubhcygkl85"]
+[gd_scene load_steps=6 format=3 uid="uid://buxubhcygkl85"]
 
 [ext_resource type="Script" path="res://scripts/options_menu.gd" id="1_0av2d"]
 [ext_resource type="Shader" path="res://assets/shaders/blur_01.gdshader" id="2_hshuo"]
 [ext_resource type="Texture2D" uid="uid://badtq3ewxdp17" path="res://assets/target_priority_btn_01.png" id="3_xwqvu"]
 [ext_resource type="Texture2D" uid="uid://dnck77x27ynfo" path="res://assets/target_priority_btn_01_hover.png" id="4_1t8gk"]
-[ext_resource type="Texture2D" uid="uid://fytkssg4j6cw" path="res://assets/upgrade_range_btn_01.png" id="4_p8xhm"]
-[ext_resource type="Texture2D" uid="uid://bwpihw5meegxv" path="res://assets/upgrade_range_btn_01_hover.png" id="5_ffrht"]
-[ext_resource type="Texture2D" uid="uid://d0pdi8gbnm82c" path="res://assets/upgrade_rate_btn_01.png" id="6_n2tky"]
-[ext_resource type="Texture2D" uid="uid://biiuul17p5ai8" path="res://assets/upgrade_rate_btn_01_hover.png" id="7_ibjjb"]
-[ext_resource type="Texture2D" uid="uid://cgkd3aqui54be" path="res://assets/upgrade_speed_btn_01.png" id="8_kwoye"]
-[ext_resource type="Texture2D" uid="uid://dfdxvgmpo8tvv" path="res://assets/upgrade_speed_btn_01_hover.png" id="9_poxu0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_75mjb"]
 shader = ExtResource("2_hshuo")
@@ -37,8 +31,11 @@ script = ExtResource("1_0av2d")
 material = SubResource("ShaderMaterial_75mjb")
 custom_minimum_size = Vector2(144, 144)
 layout_mode = 1
-offset_right = 144.0
-offset_bottom = 144.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -61,21 +58,15 @@ texture_hover = ExtResource("4_1t8gk")
 
 [node name="Options2" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-texture_normal = ExtResource("4_p8xhm")
-texture_hover = ExtResource("5_ffrht")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
 [node name="Options3" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-texture_normal = ExtResource("6_n2tky")
-texture_hover = ExtResource("7_ibjjb")
 
 [node name="Options4" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-texture_normal = ExtResource("8_kwoye")
-texture_hover = ExtResource("9_poxu0")
 
 [connection signal="mouse_entered" from="MarginContainer/VBoxContainer/HBoxContainer/TargetPriority" to="." method="_on_target_priority_mouse_entered"]
 [connection signal="mouse_exited" from="MarginContainer/VBoxContainer/HBoxContainer/TargetPriority" to="." method="_on_target_priority_mouse_exited"]

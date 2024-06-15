@@ -10,10 +10,10 @@ var tower_data = {
 		"speed": 600,
 		"first_cost": 50,
 		"upgrade_factor":{
-			"damage": 1.05,
-			"rate": 0.95,
-			"reach": 1.05,
-			"speed": 1.05,
+			"damage": 1.03,
+			"rate": 0.965,
+			"reach": 1.03,
+			"speed": 1.03,
 		}
 	},
 }

@@ -41,6 +41,7 @@ func move_dupls():
 
 func _on_hitbox_area_entered(arrow: Area2D) -> void:
 	if arrow.has_method("on_hit"):
+		arrow.queue_free()
 		bailiff_data.hp -= arrow.DAMAGE
 		$HP.value = bailiff_data.hp
 		if bailiff_data.hp <= 0:

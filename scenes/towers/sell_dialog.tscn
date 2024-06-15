@@ -8,8 +8,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_crm6j"]
 shader = ExtResource("1_c0sln")
 shader_parameter/blur_amount = 1.0
-shader_parameter/mix_amount = 0.0
-shader_parameter/color_over = null
+shader_parameter/mix_amount = 0.4
+shader_parameter/color_over = Color(0.364706, 0.180392, 0.0470588, 1)
 
 [node name="SellDialog" type="Control"]
 top_level = true

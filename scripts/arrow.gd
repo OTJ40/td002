@@ -9,6 +9,7 @@ var tower
 var arrow_texture
 var direction = Vector2.ZERO
 var life_timer = Timer.new()
+var prey_array = []
 
 func _ready() -> void:
 	DAMAGE = tower.get_node("TowerData").damage
@@ -35,6 +36,10 @@ func set_direction(dir):
 func _on_area_entered(area: Area2D) -> void:
 	#print(area.get_parent())
 	if area.get_parent().has_method("enemy"):
+		queue_free()
+		prey_array.append(area)
+		if prey_array.size() > 1:
+			print(2)
 		#tower.add_points()
 		_arrow_destruction()
 		_arrow_duplication(area)

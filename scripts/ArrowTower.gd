@@ -43,19 +43,15 @@ var has_random_target = false
 var target: Area2D
 
 # === xp === #
-#var temp_points = 0
-#var point_coef = 0.2
 var level = 1
 var levels_to_upgrade = 0
 var xp = 0
 var kills = 0
-#var hits = 0
 
 
 func _ready() -> void:
 	
 	$Label.text = str(xp)
-	$Skins/Bow.visible = true
 	if is_tower_built:
 		is_playing = true
 		
@@ -81,12 +77,14 @@ func retrieve_info():
 	text += "\n"+"rate = %s%s%s%s" % [str(snappedf($TowerData.rate,0.01)),"(",str(GameData.tower_data["ArrowTower"]["rate"]),")"]
 	text += "\n"+"reach = %s%s%s%s" % [str(snappedf($TowerData.reach,0.01)),"(",str(GameData.tower_data["ArrowTower"]["reach"]),")"]
 	text += "\n"+"speed = %s%s%s%s" % [str(snappedf($TowerData.speed,0.01)),"(",str(GameData.tower_data["ArrowTower"]["speed"]),")"]
-	text += "\n"+"level = %s%s%s%s" % [str(level),"(",str(levels_to_upgrade),")"]
+	text += "\n"+"level = %s%s%s%s" % [str(level),"(",str(levels_to_upgrade)," to up)"]
 	text += "\n"+"target priority = %s" % TARGET_PRIORITY.keys()[target_priority_choice-1]
 	$Info.set_label(text)
 
 func _process(_delta: float) -> void:
-	
+	#print(fire_cooldown_timer.time_left)
+	if fire_cooldown_timer.time_left == $TowerData.rate:
+		$Skins/Boww.play("nocking2")
 	if is_tower_built:
 		if not get_parent().any_tower_has_open_menu(self):
 			show_menu()
@@ -98,7 +96,9 @@ func check_upgrade_possibility():
 	if levels_to_upgrade > 0:
 		$UpgradeHalo.visible = true
 		$Skins/Base.modulate = Color.RED
+		$TowerMenu/MarginContainer/VBoxContainer/HBoxContainer/Up.self_modulate = Color("ffffff")
 	else:
+		$TowerMenu/MarginContainer/VBoxContainer/HBoxContainer/Up.self_modulate = Color("ffffff3e")
 		$UpgradeHalo.visible = false
 		$Skins/Base.modulate = Color("ffffff")
 
@@ -132,14 +132,15 @@ func _physics_process(_delta: float) -> void:
 				has_random_target = false
 				target = null
 				fire_cooldown_timer.start($TowerData.rate)
-		else:
-			$Skins/Bow.visible = false
-			$Skins/BowLoosen.visible = true
+		#else:
+			#$Skins/Bow.visible = false
+			#$Skins/BowLoosen.visible = true
 
 func turn_tower(_target):
 	var target_pos = _target.global_position
-	$Skins/Bow.look_at(target_pos)
-	$Skins/BowLoosen.look_at(target_pos)
+	$Skins/Boww.look_at(target_pos)
+	#$Skins/Bow.look_at(target_pos)
+	#$Skins/BowLoosen.look_at(target_pos)
 
 func show_menu():
 	if  is_mouse_on_tower or is_show_info_panel:
@@ -180,8 +181,8 @@ func select_target_nearest_to_base():
 func _on_fire_timer_cooldown() -> void:
 	if fire_cooldown_timer.is_stopped():
 		weapon_loaded = true
-		$Skins/Bow.visible = true
-		$Skins/BowLoosen.visible = false
+		#$Skins/Bow.visible = true
+		#$Skins/BowLoosen.visible = false
 
 func add_points(_points,_kills):
 	xp += _points
@@ -263,13 +264,14 @@ func _on_rate_pressed():
 	if levels_to_upgrade > 0:
 		$TowerData.rate *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["rate"]
 		levels_to_upgrade -= 1
+		$Skins/Boww.speed_scale = 1.0/$TowerData.rate
+		#$Skins/Boww.speed_scale /= $TowerData.rate
 	_on_cancel_pressed()
 
 func _on_reach_pressed():
 	if levels_to_upgrade > 0:
 		$TowerData.reach *= GameData.tower_data["ArrowTower"]["upgrade_factor"]["reach"]
 		get_node("Reach/CollisionShape2D").shape.radius = $TowerData.reach
-		#$Reach/CollisionShape2D.shape.radius = $Data.reach
 		levels_to_upgrade -= 1
 	_on_cancel_pressed()
 

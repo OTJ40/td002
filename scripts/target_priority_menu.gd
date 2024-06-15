@@ -2,7 +2,7 @@ extends Control
 
 signal target_priority_ok_pressed
 
-var target_priority_choice: int
+var target_priority_choice: int = 1
 
 func _ready() -> void:
 	target_priority_ok_pressed.connect(Callable(get_parent(),"_on_target_priority_chosen"))

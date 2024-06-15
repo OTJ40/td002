@@ -1,14 +1,17 @@
-[gd_scene load_steps=17 format=3 uid="uid://wu3iermqd1an"]
+[gd_scene load_steps=27 format=3 uid="uid://wu3iermqd1an"]
 
 [ext_resource type="Script" path="res://scripts/ArrowTower.gd" id="1_hlp86"]
-[ext_resource type="Texture2D" uid="uid://djpr4duac7s3x" path="res://assets/arrow_tower_02_base.png" id="2_012o6"]
-[ext_resource type="Texture2D" uid="uid://b4vj0ldes8tw8" path="res://assets/arrow_tower_02_bow.png" id="3_0nlei"]
-[ext_resource type="Texture2D" uid="uid://clurv6k306ku0" path="res://assets/arrow_tower_02_bow_loosen.png" id="4_14y3d"]
+[ext_resource type="Texture2D" uid="uid://65a7x1m5olok" path="res://assets/arrow_tower_03_base_256.png" id="2_a62ki"]
 [ext_resource type="PackedScene" uid="uid://cagq3wea5nsak" path="res://scenes/towers/tower_menu.tscn" id="5_2xrhe"]
+[ext_resource type="Texture2D" uid="uid://c5beei2kj5o6x" path="res://assets/arrow_tower_an_01.png" id="5_h5305"]
+[ext_resource type="Texture2D" uid="uid://0wqlojv5wppg" path="res://assets/arrow_tower_an_02.png" id="6_0ax6b"]
 [ext_resource type="PackedScene" uid="uid://dp30lu28wtl30" path="res://scenes/towers/sell_dialog.tscn" id="6_py80h"]
 [ext_resource type="PackedScene" uid="uid://bo5sdjroccamu" path="res://scenes/towers/up_menu.tscn" id="7_p7kho"]
+[ext_resource type="Texture2D" uid="uid://ctxbuevd2als3" path="res://assets/arrow_tower_an_03.png" id="7_t7gag"]
+[ext_resource type="Texture2D" uid="uid://2hu7dhhvij2p" path="res://assets/arrow_tower_an_04.png" id="8_852s6"]
 [ext_resource type="PackedScene" uid="uid://br7aytfd8s2wv" path="res://scenes/towers/info.tscn" id="8_uuqj2"]
 [ext_resource type="PackedScene" uid="uid://buxubhcygkl85" path="res://scenes/towers/options_menu.tscn" id="9_e2bbp"]
+[ext_resource type="Texture2D" uid="uid://dhfgehd0h4ofg" path="res://assets/arrow_tower_an_01-sheet.png" id="9_jgkx6"]
 [ext_resource type="Script" path="res://scripts/TowerData.gd" id="9_r050j"]
 [ext_resource type="PackedScene" uid="uid://ps1d4p6vuf2u" path="res://scenes/towers/upgrade_halo.tscn" id="10_6grr5"]
 [ext_resource type="PackedScene" uid="uid://da05dt7owp230" path="res://scenes/towers/target_priority_menu.tscn" id="10_585xk"]
@@ -21,18 +24,78 @@ radius = 32.0
 resource_local_to_scene = true
 radius = 0.01
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mxgl"]
+atlas = ExtResource("9_jgkx6")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tmaqk"]
+atlas = ExtResource("9_jgkx6")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6me1"]
+atlas = ExtResource("9_jgkx6")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhiuy"]
+atlas = ExtResource("9_jgkx6")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_luyyc"]
+atlas = ExtResource("9_jgkx6")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x5tut"]
+atlas = ExtResource("9_jgkx6")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2v4ku"]
+atlas = ExtResource("9_jgkx6")
+region = Rect2(384, 0, 64, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_a8i8i"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_0nlei")
+"texture": ExtResource("5_h5305")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_14y3d")
+"texture": ExtResource("6_0ax6b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_t7gag")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_852s6")
 }],
 "loop": false,
-"name": &"default",
+"name": &"nocking",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mxgl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tmaqk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q6me1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bhiuy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_luyyc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x5tut")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2v4ku")
+}],
+"loop": false,
+"name": &"nocking2",
+"speed": 8.0
 }]
 
 [sub_resource type="LabelSettings" id="LabelSettings_cjyjp"]
@@ -54,21 +117,13 @@ shape = SubResource("CircleShape2D_qnefi")
 [node name="Skins" type="Node2D" parent="."]
 
 [node name="Base" type="Sprite2D" parent="Skins"]
-texture = ExtResource("2_012o6")
-
-[node name="Bow" type="Sprite2D" parent="Skins"]
-visible = false
-texture = ExtResource("3_0nlei")
-
-[node name="BowLoosen" type="Sprite2D" parent="Skins"]
-visible = false
-texture = ExtResource("4_14y3d")
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_a62ki")
 
 [node name="Boww" type="AnimatedSprite2D" parent="Skins"]
-visible = false
 sprite_frames = SubResource("SpriteFrames_a8i8i")
-frame = 1
-frame_progress = 1.0
+animation = &"nocking2"
+autoplay = "nocking2"
 
 [node name="Label" type="Label" parent="."]
 custom_minimum_size = Vector2(30, 18)

@@ -37,6 +37,7 @@ script = ExtResource("1_a3njh")
 bailiff_data = SubResource("Resource_k8lsj")
 
 [node name="Skin" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_q4g8b")
 animation = &"move"
 autoplay = "move"

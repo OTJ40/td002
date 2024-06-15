@@ -6,7 +6,7 @@ const CANCEL_TIME_COOLDOWN = 0.4
 # todo 1 - game balance,
 # 2 - difflevels(xplevels(!),bailiffdata(!),moneypools,towercost),
 # 3 - rename G singleton,
-# 4 - tower options menu TargetPriorityMenu: random fix(???),
+# 4 - tower options menu 
 @export var TIME_BETWEEN_WAVES = 2.5
 #@export var TOWER_COST = 50.0
 @export var map_node: PackedScene
@@ -19,7 +19,7 @@ var money_factor = 1.0
 var money_stop = false
 var moneypool_level = 0
 var tower_cost
-var tower_cost_increase = 5
+var tower_cost_increase = 10
 var progress_bar_ls
 
 # === setting === #
